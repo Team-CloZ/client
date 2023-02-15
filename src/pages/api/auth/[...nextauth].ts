@@ -1,12 +1,6 @@
-import axios from "axios";
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-
-interface ISignInRes {
-  id: number;
-  name: string;
-  image: string;
-}
+import { signInApi } from '@src/apis';
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 export default NextAuth({
   providers: [
@@ -17,24 +11,26 @@ export default NextAuth({
           name: string;
           password: string;
         };
+        const data = await signInApi({
+          name,
+          password,
+        });
 
-        const data = await axios
-          .post<ISignInRes>("http://localhost:3000/auth/sign-in", {
-            name,
-            password,
-          })
-          .then((res) => res.data);
+        if (data === undefined) {
+          throw new Error('로그인에 실패했습니다.');
+        }
 
         return data;
       },
     }),
   ],
   pages: {
-    signIn: "/sign-in",
+    signIn: '/auth/sign-in',
   },
   callbacks: {
     session: ({ session, token }) => {
       session.user.id = Number(token.sub);
+
       return session;
     },
   },
