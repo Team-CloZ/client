@@ -1,4 +1,4 @@
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useCallback } from 'react';
@@ -10,6 +10,7 @@ import { ISignUpFormValues } from '@src/types';
 
 export function SignUp() {
   const { status } = useSession();
+  const router = useRouter();
 
   const {
     watch,
@@ -47,8 +48,8 @@ export function SignUp() {
         redirect: false,
       });
 
-      if (res?.ok) {
-        Router.replace('/');
+      if (res?.ok === true) {
+        router.replace('/');
       } else {
         console.log(res);
       }
@@ -57,97 +58,97 @@ export function SignUp() {
     }
   };
 
-  const backButtonHandler = useCallback(() => {
-    Router.push('/auth/sign-in');
-  }, []);
+  const onBackClick = useCallback(() => {
+    router.push('/auth/sign-in');
+  }, [router]);
 
-  if (status === 'authenticated') Router.replace('/');
+  if (status === 'authenticated') router.replace('/');
 
-  if (status === 'loading') return <></>;
-
-  return (
-    <S.SignUpForm onSubmit={handleSubmit(onSignUpSubmit)}>
-      <S.TopBar>
-        회원가입
-        <S.BackButton onClick={backButtonHandler} />
-      </S.TopBar>
-      <S.Box>
-        <S.Title>아이디(닉네임)</S.Title>
-        <S.InputWrapper>
-          <S.InputBox>
-            <S.NameInput
-              placeholder='아이디를 입력해주세요.'
-              {...register('name', {
-                required: '필수입력',
-                pattern: {
-                  value: /^[a-zA-Z0-9]{4,12}$/,
-                  message: '4~12자의 영문/숫자만 가능합니다.',
-                },
-              })}
-            />
-            {errors.name ? (
-              <Auth.AuthInputError>
-                <MdOutlineError />
-                {errors.name.message}
-              </Auth.AuthInputError>
-            ) : (
-              <S.InputGuide>4~12자의 영문/숫자</S.InputGuide>
-            )}
-          </S.InputBox>
-        </S.InputWrapper>
-      </S.Box>
-      <S.MiddelBox>
-        <S.Title>비밀번호</S.Title>
-        <S.InputWrapper>
-          <S.InputBox>
-            <S.PasswordInput
-              type='password'
-              placeholder='비밀번호를 입력해주세요.'
-              {...register('password', {
-                required: '필수입력',
-                pattern: {
-                  value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/,
-                  message: '8~20자의 영문/숫자/특수문자를 포함해야 합니다.',
-                },
-              })}
-            />
-            {errors.password ? (
-              <Auth.AuthInputError>
-                <MdOutlineError />
-                {errors.password.message}
-              </Auth.AuthInputError>
-            ) : (
-              <S.InputGuide>8~20자의 영문/숫자/특수문자 포함</S.InputGuide>
-            )}
-          </S.InputBox>
-        </S.InputWrapper>
-      </S.MiddelBox>
-      <S.Box>
-        <S.Title>비밀번호 확인</S.Title>
-        <S.InputWrapper>
-          <S.InputBox>
-            <S.PasswordInput
-              type='password'
-              placeholder='비밀번호를 다시 입력해주세요.'
-              {...register('passwordCheck', {
-                required: '필수입력',
-                validate: (val: string) => {
-                  if (watch('password') != val) {
-                    return '비밀번호가 일치하지 않습니다.';
-                  }
-                },
-              })}
-            />
-            {errors.passwordCheck && (
-              <Auth.AuthInputError>
-                <MdOutlineError />
-                {errors.passwordCheck.message}
-              </Auth.AuthInputError>
-            )}
-          </S.InputBox>
-        </S.InputWrapper>
-      </S.Box>
-      <S.SignUpButton disabled={isSubmitting}>가입완료</S.SignUpButton>
-    </S.SignUpForm>
-  );
+  if (status === 'unauthenticated')
+    return (
+      <S.SignUpForm onSubmit={handleSubmit(onSignUpSubmit)}>
+        <S.TopBar>
+          회원가입
+          <S.BackButton onClick={onBackClick} />
+        </S.TopBar>
+        <S.Box>
+          <S.Title>아이디(닉네임)</S.Title>
+          <S.InputWrapper>
+            <S.InputBox>
+              <S.NameInput
+                placeholder='아이디를 입력해주세요.'
+                {...register('name', {
+                  required: '필수입력',
+                  pattern: {
+                    value: /^[a-zA-Z0-9]{4,12}$/,
+                    message: '4~12자의 영문/숫자만 가능합니다.',
+                  },
+                })}
+              />
+              {errors.name ? (
+                <Auth.AuthInputError>
+                  <MdOutlineError />
+                  {errors.name.message}
+                </Auth.AuthInputError>
+              ) : (
+                <S.InputGuide>4~12자의 영문/숫자</S.InputGuide>
+              )}
+            </S.InputBox>
+          </S.InputWrapper>
+        </S.Box>
+        <S.MiddelBox>
+          <S.Title>비밀번호</S.Title>
+          <S.InputWrapper>
+            <S.InputBox>
+              <S.PasswordInput
+                type='password'
+                placeholder='비밀번호를 입력해주세요.'
+                {...register('password', {
+                  required: '필수입력',
+                  pattern: {
+                    value:
+                      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/,
+                    message: '8~20자의 영문/숫자/특수문자를 포함해야 합니다.',
+                  },
+                })}
+              />
+              {errors.password ? (
+                <Auth.AuthInputError>
+                  <MdOutlineError />
+                  {errors.password.message}
+                </Auth.AuthInputError>
+              ) : (
+                <S.InputGuide>8~20자의 영문/숫자/특수문자 포함</S.InputGuide>
+              )}
+            </S.InputBox>
+          </S.InputWrapper>
+        </S.MiddelBox>
+        <S.Box>
+          <S.Title>비밀번호 확인</S.Title>
+          <S.InputWrapper>
+            <S.InputBox>
+              <S.PasswordInput
+                type='password'
+                placeholder='비밀번호를 다시 입력해주세요.'
+                {...register('passwordCheck', {
+                  required: '필수입력',
+                  validate: (val: string) => {
+                    if (watch('password') !== val) {
+                      return '비밀번호가 일치하지 않습니다.';
+                    }
+                  },
+                })}
+              />
+              {errors.passwordCheck && (
+                <Auth.AuthInputError>
+                  <MdOutlineError />
+                  {errors.passwordCheck.message}
+                </Auth.AuthInputError>
+              )}
+            </S.InputBox>
+          </S.InputWrapper>
+        </S.Box>
+        <S.SignUpButton disabled={isSubmitting}>가입완료</S.SignUpButton>
+      </S.SignUpForm>
+    );
 }

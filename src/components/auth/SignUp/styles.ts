@@ -66,6 +66,7 @@ export const SignUpForm = styled.form`
   justify-content: center;
   position: relative;
   height: 100vh;
+  padding: 0 20px;
 `;
 
 export const BackButton = styled(MdArrowBackIos)`

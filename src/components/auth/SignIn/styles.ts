@@ -8,6 +8,7 @@ export const SignInWrapper = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
+  padding: 0 20px;
 `;
 
 export const LottieMotionBox = styled(motion.div)``;
