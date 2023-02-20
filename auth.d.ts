@@ -2,7 +2,7 @@ import 'next-auth';
 
 declare module 'next-auth' {
   interface User {
-    id: number;
+    readonly id: number;
     readonly name: string;
     readonly image: string;
   }

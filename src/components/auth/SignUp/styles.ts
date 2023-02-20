@@ -30,7 +30,7 @@ export const Title = styled.div`
   font-size: 16px;
   line-height: 19px;
   width: 100%;
-  margin-bottom: 18px;
+  margin-bottom: 10px;
 `;
 
 export const Box = styled.div`
@@ -65,8 +65,10 @@ export const SignUpForm = styled.form`
   flex-direction: column;
   justify-content: center;
   position: relative;
-  height: 100vh;
   padding: 0 20px;
+
+  min-height: 100vh;
+  min-height: calc(var(--vh) * 100);
 `;
 
 export const BackButton = styled(MdArrowBackIos)`

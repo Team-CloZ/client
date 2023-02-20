@@ -29,9 +29,13 @@ export default NextAuth({
   },
   callbacks: {
     session: ({ session, token }) => {
-      session.user.id = Number(token.sub);
-
-      return session;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: Number(token.sub),
+        },
+      };
     },
   },
 });

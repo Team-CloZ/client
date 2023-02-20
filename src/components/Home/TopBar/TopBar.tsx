@@ -2,16 +2,18 @@ import CloZLogo from '@public/svgs/logo.svg';
 import { AnimatePresence, motion } from 'framer-motion';
 import * as S from './styles';
 import { MdCancel } from 'react-icons/md';
-import { useCallback, useEffect, useRef, useState, KeyboardEvent } from 'react';
+import { useCallback, useEffect, useRef, KeyboardEvent, useState } from 'react';
+import { useHomeStore } from '@src/hooks/stores';
 
-interface TopBarProps {
-  readonly onEndEditing: (keyword: string) => void;
-  readonly onClose: () => void;
+interface ITopBarProps {
+  onEndEditing: (keyword: string) => void;
+  onClose: () => void;
 }
 
-export function TopBar(topBarProps: TopBarProps) {
-  const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [keyword, setKeyword] = useState<string>('');
+export function TopBar(topBarProps: ITopBarProps) {
+  const { onEndEditing, onClose } = topBarProps;
+  const { isSearching, setIsSearching, keyword } = useHomeStore();
+  const [tempKeyword, setTempKeyword] = useState<string>(keyword);
   const inputRef = useRef<HTMLInputElement>(null);
   const commonMotion = {
     key: `${isSearching}`,
@@ -23,30 +25,30 @@ export function TopBar(topBarProps: TopBarProps) {
 
   const onBackClick = useCallback(() => {
     setIsSearching(false);
-    topBarProps.onClose();
-  }, [topBarProps, setIsSearching]);
+    setTempKeyword('');
+    onClose();
+  }, [onClose, setIsSearching]);
 
   const onSearchClick = useCallback(() => {
     setIsSearching(true);
   }, [setIsSearching]);
 
   const onCancelClick = useCallback(() => {
-    setKeyword('');
+    setTempKeyword('');
     inputRef.current?.focus();
   }, []);
 
   const onQueryChange = useCallback(() => {
-    setKeyword(inputRef.current?.value || '');
-  }, [setKeyword]);
+    setTempKeyword(inputRef.current?.value || '');
+  }, []);
 
   const onKeyUp = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
-        topBarProps.onEndEditing(keyword);
-        inputRef.current?.blur();
+        onEndEditing(tempKeyword);
       }
     },
-    [topBarProps, keyword]
+    [onEndEditing, tempKeyword]
   );
 
   useEffect(() => {
@@ -54,10 +56,8 @@ export function TopBar(topBarProps: TopBarProps) {
       setTimeout(() => {
         inputRef.current?.focus();
       }, 201);
-    } else {
-      setKeyword('');
     }
-  }, [isSearching]);
+  }, [isSearching, onClose]);
 
   return (
     <S.TopBarWrapper>
@@ -89,7 +89,7 @@ export function TopBar(topBarProps: TopBarProps) {
           ) : (
             <S.InputMotion {...commonMotion}>
               <S.TransparentInput
-                value={keyword}
+                value={tempKeyword}
                 onChange={onQueryChange}
                 ref={inputRef}
                 onKeyUp={onKeyUp}

@@ -9,9 +9,6 @@ export const TopBarWrapper = styled.div`
   padding: 0px 15px 0px 20px;
   align-items: center;
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  width: 100%;
-  max-width: 480px;
   height: 56px;
   background-color: #fff;
 `;

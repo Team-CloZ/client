@@ -48,9 +48,7 @@ export function SignUp() {
         redirect: false,
       });
 
-      if (res?.ok === true) {
-        router.replace('/');
-      } else {
+      if (res?.ok === false) {
         console.log(res);
       }
     } catch (error) {
@@ -81,7 +79,7 @@ export function SignUp() {
                   required: '필수입력',
                   pattern: {
                     value: /^[a-zA-Z0-9]{4,12}$/,
-                    message: '4~12자의 영문/숫자만 가능합니다.',
+                    message: '4~12자의 영문/숫자',
                   },
                 })}
               />
@@ -106,9 +104,8 @@ export function SignUp() {
                 {...register('password', {
                   required: '필수입력',
                   pattern: {
-                    value:
-                      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/,
-                    message: '8~20자의 영문/숫자/특수문자를 포함해야 합니다.',
+                    value: /^[a-zA-Z0-9]{8,20}$/,
+                    message: '8~20자의 영문/숫자',
                   },
                 })}
               />
@@ -118,7 +115,7 @@ export function SignUp() {
                   {errors.password.message}
                 </Auth.AuthInputError>
               ) : (
-                <S.InputGuide>8~20자의 영문/숫자/특수문자 포함</S.InputGuide>
+                <S.InputGuide>8~20자의 영문/숫자</S.InputGuide>
               )}
             </S.InputBox>
           </S.InputWrapper>
@@ -151,4 +148,6 @@ export function SignUp() {
         <S.SignUpButton disabled={isSubmitting}>가입완료</S.SignUpButton>
       </S.SignUpForm>
     );
+
+  return <></>;
 }

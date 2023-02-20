@@ -7,8 +7,10 @@ export const SignInWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
   padding: 0 20px;
+
+  min-height: 100vh;
+  min-height: calc(var(--vh) * 100);
 `;
 
 export const LottieMotionBox = styled(motion.div)``;
@@ -43,4 +45,13 @@ export const SignUpLinkButton = styled(AuthButton)`
   width: unset;
   color: #37258e;
   background-color: transparent;
+`;
+
+export const Title = styled.div`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  width: 100%;
+  margin-bottom: 10px;
 `;

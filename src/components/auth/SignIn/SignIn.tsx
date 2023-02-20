@@ -30,9 +30,7 @@ export function SignIn() {
         redirect: false,
       });
 
-      if (res?.ok === true) {
-        router.replace('/');
-      } else {
+      if (res?.ok === false) {
         alert('아이디 또는 비밀번호가 일치하지 않습니다.');
         reset();
       }
@@ -64,13 +62,14 @@ export function SignIn() {
         >
           <S.SignInForm onSubmit={handleSubmit(onSignInSubmit)}>
             <S.InputBox>
+              <S.Title>아이디(닉네임)</S.Title>
               <S.Input
-                placeholder='아이디(닉네임)'
+                placeholder='아이디를 입력해주세요.'
                 {...register('name', {
                   required: '필수입력',
                   pattern: {
                     value: /^[a-zA-Z0-9]{4,12}$/,
-                    message: '4~12자의 영문/숫자만 가능합니다.',
+                    message: '4~12자의 영문/숫자',
                   },
                 })}
               />
@@ -82,15 +81,15 @@ export function SignIn() {
               )}
             </S.InputBox>
             <S.InputBox>
+              <S.Title>비밀번호</S.Title>
               <S.Input
                 type='password'
-                placeholder='비밀번호'
+                placeholder='비밀번호를 입력해주세요.'
                 {...register('password', {
                   required: '필수입력',
                   pattern: {
-                    value:
-                      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/,
-                    message: '8~20자의 영문/숫자/특수문자를 포함해야 합니다.',
+                    value: /^[a-zA-Z0-9]{8,20}$/,
+                    message: '8~20자의 영문/숫자',
                   },
                 })}
               />
@@ -109,4 +108,6 @@ export function SignIn() {
         </S.MainMotionBox>
       </S.SignInWrapper>
     );
+
+  return <></>;
 }

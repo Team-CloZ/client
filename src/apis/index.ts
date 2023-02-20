@@ -1,10 +1,7 @@
 export * from './auth.api';
+import { SERVER_ADDRESS } from '@src/const';
 import axios from 'axios';
 
 export const serverAxios = axios.create({
-  baseURL: 'http://localhost:3000',
-});
-
-export const aiAxios = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: SERVER_ADDRESS,
 });

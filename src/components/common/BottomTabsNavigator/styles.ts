@@ -5,20 +5,45 @@ import Link from 'next/link';
 export const Container = styled.div`
   position: fixed;
   bottom: 0;
-  background-color: #fff;
   width: 100%;
   max-width: 480px;
-  height: 80px;
-  box-shadow: 0px -7px 9px rgba(145, 152, 208, 0.16);
+  height: 100px;
+  /* box-shadow: 0px -7px 9px rgba(145, 152, 208, 0.16); */
+  background-image: url('/svgs/bottom_navicator.svg');
+  background-repeat: no-repeat;
+  background-position: center;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+
+  // make a white shadow box by before and after
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: calc(50% - 240px);
+    width: 60px;
+    height: 81px;
+    background-color: #fff;
+    box-shadow: -7px -7px 9px rgba(145, 152, 208, 0.16);
+    z-index: 1;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: calc(50% - 240px);
+    width: 60px;
+    height: 81px;
+    background-color: #fff;
+    box-shadow: 7px -7px 9px rgba(145, 152, 208, 0.16);
+    z-index: 1;
+  }
 `;
 
 export const ExploreLink = styled(Link)`
   cursor: pointer;
-  position: relative;
-  top: -11px;
   width: 80px;
   height: 60px;
   display: fixed;
@@ -26,40 +51,18 @@ export const ExploreLink = styled(Link)`
   justify-content: center;
 
   svg {
-    width: 40px;
-    height: 40px;
-  }
-`;
-
-export const PlusContainer = styled.div`
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  position: relative;
-  top: -35%;
-  background-color: #fff;
-  padding: 12px;
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px -7px 9px rgba(145, 152, 208, 0.16);
-
-  &::before {
-    content: '';
-    width: 120px;
-    height: 96px;
-    display: block;
-    position: absolute;
-    background-color: #fff;
-    transform: translateY(38%);
+    width: 44px;
+    height: 44px;
   }
 `;
 
 export const PlusIconContainer = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
+  position: relative;
+  bottom: 30px;
+  cursor: pointer;
   background: linear-gradient(
     142.92deg,
     #777dff 9.34%,
@@ -73,14 +76,12 @@ export const PlusIconContainer = styled.div`
 `;
 
 export const PlusIcon = styled(IoAddOutline)`
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
 `;
 
 export const ClosetLink = styled(Link)`
   cursor: pointer;
-  position: relative;
-  top: -11px;
   width: 80px;
   height: 60px;
   display: fixed;
@@ -88,7 +89,7 @@ export const ClosetLink = styled(Link)`
   justify-content: center;
 
   svg {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
 `;

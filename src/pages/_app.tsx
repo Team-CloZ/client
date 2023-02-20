@@ -3,6 +3,7 @@ import localFont from '@next/font/local';
 import type { AppProps } from 'next/app';
 import { css, Global } from '@emotion/react';
 import styled from '@emotion/styled';
+import Layout from './layout';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -15,9 +16,11 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <Global styles={globalCss} />
-      <Main className={pretendard.className}>
-        <Component {...pageProps} />
-      </Main>
+      <Layout>
+        <Main className={pretendard.className}>
+          <Component {...pageProps} />
+        </Main>
+      </Layout>
     </SessionProvider>
   );
 }
@@ -27,12 +30,18 @@ const globalCss = css`
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    font-family: 'PretendardVariable', sans-serif;
     /* outline: 1px solid dodgerblue; */
   }
 
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
   html,
   body {
-    font-family: 'PretendardVariable', sans-serif;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -50,6 +59,7 @@ const globalCss = css`
   button {
     cursor: pointer;
     border: none;
+    background: none;
 
     &:disabled {
       background: #c8c6c8;
@@ -57,7 +67,8 @@ const globalCss = css`
     }
   }
 
-  input {
+  input,
+  textarea {
     &:focus {
       outline-color: #37258e;
     }
@@ -71,7 +82,6 @@ const globalCss = css`
 const Main = styled.main`
   max-width: 480px;
   margin: 0 auto;
-  padding: 0 20px;
-  min-height: 100vh;
   box-shadow: 0 0 20px rgb(0 0 0 / 5%);
+  overflow-x: hidden;
 `;

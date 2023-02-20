@@ -15,11 +15,9 @@ export function BottomTabsNavigator() {
       <S.ExploreLink href={'/'}>
         <MdExplore color={router.pathname === '/' ? '#37258E' : '#A9AFCD'} />
       </S.ExploreLink>
-      <S.PlusContainer onClick={onPlusClick}>
-        <S.PlusIconContainer>
-          <S.PlusIcon color='#fff' />
-        </S.PlusIconContainer>
-      </S.PlusContainer>
+      <S.PlusIconContainer onClick={onPlusClick}>
+        <S.PlusIcon color='#fff' />
+      </S.PlusIconContainer>
       <S.ClosetLink href={'/closet'}>
         <MdOutlineCheckroom
           color={router.pathname === '/closet' ? '#37258E' : '#A9AFCD'}
