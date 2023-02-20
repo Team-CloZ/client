@@ -48,6 +48,9 @@ dependencies:
   '@types/node': 18.13.0
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
+  '@types/react-virtualized-auto-sizer': registry.npmjs.org/@types/react-virtualized-auto-sizer/1.0.1
+  '@types/react-window': registry.npmjs.org/@types/react-window/1.8.5
+  '@types/react-window-infinite-loader': registry.npmjs.org/@types/react-window-infinite-loader/1.0.6
   '@typescript-eslint/eslint-plugin': 5.51.0_b635kmla6dsb4frxfihkw4m47e
   '@typescript-eslint/parser': 5.51.0_4vsywjlpuriuw3tl5oq6zy5a64
   axios: 1.3.2
@@ -70,11 +73,6 @@ dependencies:
   reset-css: 5.0.1
   typescript: 4.9.5
   zustand: 4.3.2_react@18.2.0
-
-devDependencies:
-  '@types/react-virtualized-auto-sizer': registry.npmjs.org/@types/react-virtualized-auto-sizer/1.0.1
-  '@types/react-window': registry.npmjs.org/@types/react-window/1.8.5
-  '@types/react-window-infinite-loader': registry.npmjs.org/@types/react-window-infinite-loader/1.0.6
 
 packages:
 
@@ -3272,7 +3270,7 @@ packages:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==, registry: https://registry.npmjs.cf/, tarball: https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz}
     name: '@types/prop-types'
     version: 15.7.5
-    dev: true
+    dev: false
 
   registry.npmjs.org/@types/react-virtualized-auto-sizer/1.0.1:
     resolution: {integrity: sha512-GH8sAnBEM5GV9LTeiz56r4ZhMOUSrP43tAQNSRVxNexDjcNKLCEtnxusAItg1owFUFE6k0NslV26gqVClVvong==, registry: https://registry.npmjs.cf/, tarball: https://registry.npmjs.org/@types/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.1.tgz}
@@ -3280,7 +3278,7 @@ packages:
     version: 1.0.1
     dependencies:
       '@types/react': registry.npmjs.org/@types/react/18.0.27
-    dev: true
+    dev: false
 
   registry.npmjs.org/@types/react-window-infinite-loader/1.0.6:
     resolution: {integrity: sha512-V8g8sBDLVeJJAfEENJS7VXZK+DRJ+jzPNtk8jpj2G+obhf+iqGNUDGwNWCbBhLiD+KpHhf3kWQlKBRi0tAeU4Q==, registry: https://registry.npmjs.cf/, tarball: https://registry.npmjs.org/@types/react-window-infinite-loader/-/react-window-infinite-loader-1.0.6.tgz}
@@ -3289,7 +3287,7 @@ packages:
     dependencies:
       '@types/react': registry.npmjs.org/@types/react/18.0.27
       '@types/react-window': registry.npmjs.org/@types/react-window/1.8.5
-    dev: true
+    dev: false
 
   registry.npmjs.org/@types/react-window/1.8.5:
     resolution: {integrity: sha512-V9q3CvhC9Jk9bWBOysPGaWy/Z0lxYcTXLtLipkt2cnRj1JOSFNF7wqGpkScSXMgBwC+fnVRg/7shwgddBG5ICw==, registry: https://registry.npmjs.cf/, tarball: https://registry.npmjs.org/@types/react-window/-/react-window-1.8.5.tgz}
@@ -3297,7 +3295,7 @@ packages:
     version: 1.8.5
     dependencies:
       '@types/react': registry.npmjs.org/@types/react/18.0.27
-    dev: true
+    dev: false
 
   registry.npmjs.org/@types/react/18.0.27:
     resolution: {integrity: sha512-3vtRKHgVxu3Jp9t718R9BuzoD4NcQ8YJ5XRzsSKxNDiDonD2MXIT1TmSkenxuCycZJoQT5d2vE8LwWJxBC1gmA==, registry: https://registry.npmjs.cf/, tarball: https://registry.npmjs.org/@types/react/-/react-18.0.27.tgz}
@@ -3307,19 +3305,19 @@ packages:
       '@types/prop-types': registry.npmjs.org/@types/prop-types/15.7.5
       '@types/scheduler': registry.npmjs.org/@types/scheduler/0.16.2
       csstype: registry.npmjs.org/csstype/3.1.1
-    dev: true
+    dev: false
 
   registry.npmjs.org/@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==, registry: https://registry.npmjs.cf/, tarball: https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.2.tgz}
     name: '@types/scheduler'
     version: 0.16.2
-    dev: true
+    dev: false
 
   registry.npmjs.org/csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==, registry: https://registry.npmjs.cf/, tarball: https://registry.npmjs.org/csstype/-/csstype-3.1.1.tgz}
     name: csstype
     version: 3.1.1
-    dev: true
+    dev: false
 
   registry.npmjs.org/memoize-one/5.2.1:
     resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==, registry: https://registry.npmjs.cf/, tarball: https://registry.npmjs.org/memoize-one/-/memoize-one-5.2.1.tgz}
