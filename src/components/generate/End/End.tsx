@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as S from './styles';
 import { useSession } from 'next-auth/react';
-import { S3_ADDRESS_CLOTHES, SERVER_ADDRESS } from '@src/const';
+import { S3_ADDRESS_CLOTHES } from '@src/const';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
 import { postClothesApi } from '@src/apis/clothes.api';
