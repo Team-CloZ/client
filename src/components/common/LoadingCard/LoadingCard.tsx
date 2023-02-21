@@ -13,13 +13,18 @@ const tips = [
   '악세사리, 신발 등 다양한 옷을 만들어보세요.',
 ];
 
-export function LoadingCard() {
+interface ILoadingCardProps {
+  sec: number;
+}
+
+export function LoadingCard(loadingCardProps: ILoadingCardProps) {
+  const { sec } = loadingCardProps;
   const tip = tips[Math.floor(Math.random() * tips.length)];
 
   return (
     <S.LoadingCardWrapper>
       <Lottie animationData={LottieData} />
-      <S.Text>약 20초가 소요됩니다.</S.Text>
+      <S.Text>약 {sec}초가 소요됩니다.</S.Text>
       <S.Tip>
         Tip. <span>{tip}</span>
       </S.Tip>

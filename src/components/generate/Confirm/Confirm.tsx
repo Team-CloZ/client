@@ -146,7 +146,7 @@ export function Confirm() {
               height={400}
             />
           ) : (
-            <LoadingCard />
+            <LoadingCard sec={10} />
           )}
         </S.ImageWrapper>
         {editedImageUrl !== '' || parentId === undefined ? (
