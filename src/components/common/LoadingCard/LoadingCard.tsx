@@ -19,7 +19,7 @@ export function LoadingCard() {
   return (
     <S.LoadingCardWrapper>
       <Lottie animationData={LottieData} />
-      <S.Text>약 15초가 소요됩니다.</S.Text>
+      <S.Text>약 20초가 소요됩니다.</S.Text>
       <S.Tip>
         Tip. <span>{tip}</span>
       </S.Tip>

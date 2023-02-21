@@ -26,8 +26,8 @@ export function Confirm() {
     setTlDesc,
     editedImageUrl,
     setEditedImageUrl,
-    isGenerating,
-    setIsGenerating,
+    // isGenerating,
+    // setIsGenerating,
   } = useGenerateStore();
   const { reset: resetHome } = useHomeStore();
   const { reset: resetCloset } = useClosetStore();
@@ -59,10 +59,10 @@ export function Confirm() {
 
         const res = await editApi(req);
 
-        if (isGenerating) {
-          setEditedImageUrl(res.images[0]);
-          setIsGenerating(false);
-        }
+        // if (isGenerating) {
+        setEditedImageUrl(res.images[0]);
+        // setIsGenerating(false);
+        // }
       } catch (err) {
         console.log(err);
         alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
@@ -78,8 +78,8 @@ export function Confirm() {
       setTlTitle,
       setTlColor,
       setTlDesc,
-      isGenerating,
-      setIsGenerating,
+      // isGenerating,
+      // setIsGenerating,
     ]
   );
 
@@ -89,16 +89,16 @@ export function Confirm() {
     setEditedImageUrl('');
     getClothesDetailApi({ id: parentId })
       .then((data) => {
-        if (isGenerating) {
-          onEdit(data);
-        }
+        // if (isGenerating) {
+        onEdit(data);
+        // }
       })
       .catch((err) => {
         console.log(err);
         alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
         router.push('/');
       });
-  }, [setEditedImageUrl, parentId, onEdit, router, isGenerating]);
+  }, [setEditedImageUrl, parentId, onEdit, router]);
 
   const onCloseClick = useCallback(() => {
     resetHome();
@@ -125,8 +125,8 @@ export function Confirm() {
       alert('로그인 페이지로 이동합니다.');
       router.replace('/auth/sign-in');
     }
-    setIsGenerating(true);
-  }, [status, router, setIsGenerating]);
+    // setIsGenerating(true);
+  }, [status, router]);
 
   if (status === 'authenticated')
     return (
