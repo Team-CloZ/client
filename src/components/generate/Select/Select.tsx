@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import * as S from './styles';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
 import { S3_ADDRESS_CLOTHES } from '@src/const';
 import { useSession } from 'next-auth/react';
@@ -8,6 +8,7 @@ import { generateApi } from '@src/apis/generate.api';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
 import { koToEnApi } from '@src/apis/papago.api';
 import { LoadingCard } from '@src/components/common/LoadingCard';
+import axios from 'axios';
 
 export function Select() {
   const { status } = useSession();
@@ -23,14 +24,16 @@ export function Select() {
     setTlTitle,
     setTlColor,
     setTlDesc,
-    isGenerating,
-    setIsGenerating,
   } = useGenerateStore();
   const { reset: resetHome } = useHomeStore();
   const { reset: resetCloset } = useClosetStore();
+  const [isGenerating, setIsGenerating] = useState(false);
+  const source = useRef<any>(null);
 
   const onGenerate = useCallback(async () => {
     try {
+      source.current = axios.CancelToken.source();
+
       const tlTitle = await koToEnApi(title);
       const tlColor = await koToEnApi(color);
       const tlDesc = await koToEnApi(desc);
@@ -39,20 +42,25 @@ export function Select() {
       setTlColor(tlColor);
       setTlDesc(tlDesc);
 
-      const res = await generateApi({
-        title: tlTitle,
-        color: tlColor,
-        desc: tlDesc,
-      });
+      const res = await generateApi(
+        {
+          title: tlTitle,
+          color: tlColor,
+          desc: tlDesc,
+        },
+        source.current.token
+      );
 
-      if (isGenerating) {
-        setSelectImageUrls(res.images);
-        setIsGenerating(false);
-      }
+      setIsGenerating(false);
+      setSelectImageUrls(res.images);
     } catch (err) {
-      console.log(err);
-      alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
-      router.push('/');
+      if (axios.isCancel(err)) {
+        console.log('Request canceled');
+      } else {
+        console.log(err);
+        alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
+        router.push('/');
+      }
     }
   }, [
     title,
@@ -63,34 +71,39 @@ export function Select() {
     setTlTitle,
     setTlColor,
     setTlDesc,
-    isGenerating,
-    setIsGenerating,
   ]);
 
   const onPrevClick = useCallback(() => {
     setSelectImageUrls([]);
+    source.current?.cancel();
     router.back();
   }, [setSelectImageUrls, router]);
 
   const onCloseClick = useCallback(() => {
     resetHome();
     resetCloset();
+    source.current?.cancel();
     router.push('/');
   }, [router, resetHome, resetCloset]);
 
   const onRegenerateClick = useCallback(() => {
-    setIsGenerating(true);
     setSelectImageUrls([]);
     setImageUrl('');
-    // useEffect에서 selectImageUrls.length === 0일 때 onGenerate를 호출함
-  }, [setSelectImageUrls, setImageUrl, setIsGenerating]);
+    setIsGenerating(true);
+    onGenerate();
+  }, [setSelectImageUrls, setImageUrl, onGenerate]);
 
   const onSelectClick = useCallback(() => {
     router.push('/generate/confirm');
   }, [router]);
 
+  const onUnload = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = ''; // chrome에서는 설정이 필요해서 넣은 코드
+  };
+
   useEffect(() => {
-    if (selectImageUrls.length === 0 && isGenerating) {
+    if (selectImageUrls.length === 0 && isGenerating === false) {
       onGenerate();
     }
   }, [onGenerate, selectImageUrls, isGenerating]);
@@ -100,8 +113,17 @@ export function Select() {
       alert('로그인 페이지로 이동합니다.');
       router.replace('/auth/sign-in');
     }
-    setIsGenerating(true);
-  }, [status, router, setIsGenerating]);
+  }, [status, router]);
+
+  // 브라우저에 렌더링 시 한 번만 실행하는 코드
+  useEffect(() => {
+    window.addEventListener('beforeunload', onUnload);
+
+    return () => {
+      source.current?.cancel();
+      window.removeEventListener('beforeunload', onUnload);
+    };
+  }, []);
 
   if (status === 'authenticated')
     return (

@@ -13,7 +13,6 @@ interface IGenerateStore {
   editedImageUrl: string;
   selectImageUrls: string[];
   parentId?: number;
-  isGenerating: boolean;
   setTitle: (data: string) => void;
   setColor: (data: string) => void;
   setDesc: (data: string) => void;
@@ -24,7 +23,6 @@ interface IGenerateStore {
   setEditedImageUrl: (data?: string) => void;
   setSelectImageUrls: (data: string[]) => void;
   setParentId: (data: number) => void;
-  setIsGenerating: (data: boolean) => void;
   reset: () => void;
 }
 
@@ -37,7 +35,6 @@ const initialState = {
   tlDesc: '',
   imageUrl: '',
   editedImageUrl: '',
-  isGenerating: false,
   selectImageUrls: [],
   parentId: undefined,
 };
@@ -75,9 +72,6 @@ const persistStore = create(
       },
       setParentId: (data) => {
         set((state) => ({ ...state, parentId: data }));
-      },
-      setIsGenerating: (data) => {
-        set((state) => ({ ...state, isGenerating: data }));
       },
       reset: () => {
         set(initialState);
