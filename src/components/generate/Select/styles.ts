@@ -58,10 +58,10 @@ export const SelectImage = styled(Image)<{ selected: boolean }>`
     selected ? '3px solid #9747FF' : '1px solid #DEDCDF'};
   border-radius: 14px;
   min-width: 128px;
-  width: 46%;
+  width: 47%;
   height: auto;
   padding: 7px;
-  margin-bottom: 6vw;
+  margin-bottom: 4vw;
 `;
 
 export const ButtonBox = styled.div`

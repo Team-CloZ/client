@@ -72,7 +72,7 @@ export function SignUp() {
           <S.BackButton onClick={onBackClick} />
         </S.TopBar>
         <S.Box>
-          <S.Title>아이디(닉네임)</S.Title>
+          <S.Title>아이디</S.Title>
           <S.InputWrapper>
             <S.InputBox>
               <S.NameInput

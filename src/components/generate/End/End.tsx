@@ -58,7 +58,7 @@ export function End() {
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      alert('로그인이 필요한 서비스입니다.');
+      alert('로그인 페이지로 이동합니다.');
       router.replace('/auth/sign-in');
     }
   }, [status, router]);

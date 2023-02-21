@@ -64,7 +64,7 @@ export function SignIn() {
         >
           <S.SignInForm onSubmit={handleSubmit(onSignInSubmit)}>
             <S.InputBox>
-              <S.Title>아이디(닉네임)</S.Title>
+              <S.Title>아이디</S.Title>
               <S.Input
                 placeholder='아이디를 입력해주세요.'
                 {...register('name', {

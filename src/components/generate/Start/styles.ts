@@ -49,7 +49,7 @@ export const Form = styled.form`
 `;
 
 export const Title = styled.div`
-  margin-top: 40px;
+  margin-top: 20px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -69,7 +69,7 @@ export const Title = styled.div`
 `;
 
 export const Color = styled.div`
-  margin-top: 40px;
+  margin-top: 20px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -89,7 +89,7 @@ export const Color = styled.div`
 `;
 
 export const Desc = styled.div`
-  margin-top: 40px;
+  margin-top: 20px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -111,7 +111,7 @@ export const Desc = styled.div`
 `;
 
 export const GenerateButton = styled.button`
-  margin-top: 56px;
+  margin-top: 30px;
   width: 180px;
   height: 60px;
   border-radius: 14px;

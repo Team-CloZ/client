@@ -93,7 +93,7 @@ export const PostButton = styled.button`
   font-size: 20px;
   line-height: 22px;
   color: #ffffff;
-  margin-top: 107px;
+  margin-top: 50px;
 
   &:disabled {
     color: #9a9b9d;
