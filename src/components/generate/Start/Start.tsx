@@ -100,7 +100,7 @@ export function Start() {
               disabled={parentId ? true : false}
               placeholder='예시: 보라색'
               {...register('color', {
-                required: true,
+                required: parentId ? false : true,
               })}
               defaultValue={color}
             />
