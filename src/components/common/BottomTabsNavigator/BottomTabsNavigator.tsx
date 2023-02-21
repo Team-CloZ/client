@@ -1,3 +1,4 @@
+import { useGenerateStore } from '@src/hooks/stores/generate.store';
 import * as S from './styles';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
@@ -5,10 +6,12 @@ import { MdExplore, MdOutlineCheckroom } from 'react-icons/md';
 
 export function BottomTabsNavigator() {
   const router = useRouter();
+  const { reset } = useGenerateStore();
 
   const onPlusClick = useCallback(() => {
+    reset();
     router.push('/generate/start');
-  }, [router]);
+  }, [router, reset]);
 
   return (
     <S.Container>

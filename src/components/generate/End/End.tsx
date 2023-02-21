@@ -18,8 +18,17 @@ export function End() {
   const router = useRouter();
   const { reset: resetHome } = useHomeStore();
   const { reset: resetCloset } = useClosetStore();
-  const { title, color, desc, tlTitle, tlColor, tlDesc, imageUrl, parentId } =
-    useGenerateStore();
+  const {
+    title,
+    color,
+    desc,
+    tlTitle,
+    tlColor,
+    tlDesc,
+    imageUrl,
+    parentId,
+    editedImageUrl,
+  } = useGenerateStore();
 
   const {
     register,
@@ -37,7 +46,7 @@ export function End() {
     if (data?.user.id === undefined) return;
 
     postClothesApi({
-      imageUrl,
+      imageUrl: editedImageUrl === '' ? imageUrl : editedImageUrl,
       title,
       color,
       desc,
@@ -77,7 +86,9 @@ export function End() {
         </S.Header>
         <S.ImageWrapper>
           <Image
-            src={`${S3_ADDRESS_CLOTHES}/${imageUrl}`}
+            src={`${S3_ADDRESS_CLOTHES}/${
+              editedImageUrl === '' ? imageUrl : editedImageUrl
+            }`}
             alt='Clothes image'
             width={155}
             height={155}

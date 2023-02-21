@@ -9,6 +9,7 @@ import { getClothesApi } from '@src/apis/clothes.api';
 import * as S from './styles';
 import { OptionContainer } from '../common/InfinityClothesList/OprtionContainer';
 import { Profile } from './Profile';
+import { useGenerateStore } from '@src/hooks/stores/generate.store';
 
 export function Closet() {
   const { status, data } = useSession();
@@ -27,6 +28,7 @@ export function Closet() {
     setScrollState,
     resetScrollState,
   } = useClosetStore();
+  const { reset } = useGenerateStore();
 
   const onRefresh = useCallback(() => {
     resetPage();
@@ -71,11 +73,12 @@ export function Closet() {
   );
 
   useEffect(() => {
+    reset();
     if (status === 'unauthenticated') {
       alert('로그인 페이지로 이동합니다.');
       router.replace('/auth/sign-in');
     }
-  }, [status, router]);
+  }, [status, router, reset]);
 
   if (status === 'authenticated')
     return (

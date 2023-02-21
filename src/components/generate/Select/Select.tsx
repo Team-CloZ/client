@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import * as S from './styles';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import LottieData from '@public/lottie/generating.json';
 import Lottie from 'lottie-react';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
@@ -24,15 +24,14 @@ export function Select() {
     setTlTitle,
     setTlColor,
     setTlDesc,
-    reset,
+    isGenerating,
+    setIsGenerating,
   } = useGenerateStore();
   const { reset: resetHome } = useHomeStore();
   const { reset: resetCloset } = useClosetStore();
-  const [generating, setGenerating] = useState(false);
 
   const onGenerate = useCallback(async () => {
     try {
-      setGenerating(true);
       const tlTitle = await koToEnApi(title);
       const tlColor = await koToEnApi(color);
       const tlDesc = await koToEnApi(desc);
@@ -47,7 +46,10 @@ export function Select() {
         desc: tlDesc,
       });
 
-      setSelectImageUrls(res.images);
+      if (isGenerating) {
+        setSelectImageUrls(res.images);
+        setIsGenerating(false);
+      }
     } catch (err) {
       console.log(err);
       alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
@@ -62,6 +64,8 @@ export function Select() {
     setTlTitle,
     setTlColor,
     setTlDesc,
+    isGenerating,
+    setIsGenerating,
   ]);
 
   const onPrevClick = useCallback(() => {
@@ -70,11 +74,10 @@ export function Select() {
   }, [setSelectImageUrls, router]);
 
   const onCloseClick = useCallback(() => {
-    reset();
     resetHome();
     resetCloset();
     router.push('/');
-  }, [reset, router, resetHome, resetCloset]);
+  }, [router, resetHome, resetCloset]);
 
   const onRegenerateClick = useCallback(() => {
     setSelectImageUrls([]);
@@ -97,7 +100,8 @@ export function Select() {
       alert('로그인 페이지로 이동합니다.');
       router.replace('/auth/sign-in');
     }
-  }, [status, router]);
+    setIsGenerating(true);
+  }, [status, router, setIsGenerating]);
 
   if (status === 'authenticated')
     return (

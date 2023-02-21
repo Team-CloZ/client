@@ -20,13 +20,15 @@ export function Confirm() {
     title,
     color,
     desc,
-    imageUrl,
-    setImageUrl,
     parentId,
-    reset,
+    imageUrl,
     setTlTitle,
     setTlColor,
     setTlDesc,
+    editedImageUrl,
+    setEditedImageUrl,
+    isGenerating,
+    setIsGenerating,
   } = useGenerateStore();
   const { reset: resetHome } = useHomeStore();
   const { reset: resetCloset } = useClosetStore();
@@ -58,37 +60,52 @@ export function Confirm() {
 
         const res = await editApi(req);
 
-        setImageUrl(res.images[0]);
+        if (isGenerating) {
+          setEditedImageUrl(res.images[0]);
+          setIsGenerating(false);
+        }
       } catch (err) {
         console.log(err);
         alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
         router.push('/');
       }
     },
-    [title, color, desc, router, setImageUrl, setTlTitle, setTlColor, setTlDesc]
+    [
+      title,
+      color,
+      desc,
+      router,
+      setEditedImageUrl,
+      setTlTitle,
+      setTlColor,
+      setTlDesc,
+      isGenerating,
+      setIsGenerating,
+    ]
   );
 
   const onRegenerate = useCallback(() => {
     if (parentId === undefined) return;
 
-    setImageUrl('');
+    setEditedImageUrl('');
     getClothesDetailApi({ id: parentId })
       .then((data) => {
-        onEdit(data);
+        if (isGenerating) {
+          onEdit(data);
+        }
       })
       .catch((err) => {
         console.log(err);
         alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
         router.push('/');
       });
-  }, [setImageUrl, parentId, onEdit, router]);
+  }, [setEditedImageUrl, parentId, onEdit, router, isGenerating]);
 
   const onCloseClick = useCallback(() => {
-    reset();
     resetHome();
     resetCloset();
     router.push('/');
-  }, [reset, router, resetHome, resetCloset]);
+  }, [router, resetHome, resetCloset]);
 
   const onCompleteClick = useCallback(() => {
     router.push('/generate/end');
@@ -99,17 +116,18 @@ export function Confirm() {
   }, [router]);
 
   useEffect(() => {
-    if (parentId) {
+    if (editedImageUrl === '') {
       onRegenerate();
     }
-  }, [parentId, onRegenerate]);
+  }, [onRegenerate, editedImageUrl]);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
       alert('로그인 페이지로 이동합니다.');
       router.replace('/auth/sign-in');
     }
-  }, [status, router]);
+    setIsGenerating(true);
+  }, [status, router, setIsGenerating]);
 
   if (status === 'authenticated')
     return (
@@ -120,9 +138,11 @@ export function Confirm() {
           <S.CloseButton onClick={onCloseClick} />
         </S.Header>
         <S.ImageWrapper>
-          {imageUrl !== '' || parentId === undefined ? (
+          {editedImageUrl !== '' || parentId === undefined ? (
             <Image
-              src={`${S3_ADDRESS_CLOTHES}/${imageUrl}`}
+              src={`${S3_ADDRESS_CLOTHES}/${
+                editedImageUrl === '' ? imageUrl : editedImageUrl
+              }`}
               alt='Clothes image'
               width={400}
               height={400}
@@ -131,18 +151,20 @@ export function Confirm() {
             <Lottie animationData={LottieData} />
           )}
         </S.ImageWrapper>
-        {imageUrl !== '' || parentId === undefined ? (
+        {editedImageUrl !== '' || parentId === undefined ? (
           <S.ButtonWrapper>
             {parentId && (
               <S.RegenerateButton
-                disabled={imageUrl === ''}
+                disabled={editedImageUrl === ''}
                 onClick={onRegenerate}
               >
                 재생성하기
               </S.RegenerateButton>
             )}
             <S.CompleteButton
-              disabled={imageUrl === ''}
+              disabled={
+                parentId === undefined ? imageUrl === '' : editedImageUrl === ''
+              }
               parentId={parentId}
               onClick={onCompleteClick}
             >

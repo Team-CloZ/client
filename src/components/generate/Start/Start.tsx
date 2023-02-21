@@ -21,7 +21,7 @@ export function Start() {
     setTitle,
     setColor,
     setDesc,
-    reset,
+    setEditedImageUrl,
   } = useGenerateStore();
   const { reset: resetHome } = useHomeStore();
   const { reset: resetCloset } = useClosetStore();
@@ -34,10 +34,9 @@ export function Start() {
 
   const onSubmitHandler: SubmitHandler<IStartFormValue> = (data) => {
     setTitle(data.title.trim());
-    if (parentId === undefined) {
-      setColor(data.color.trim());
-    }
+    setColor(data.color.trim());
     setDesc(data.desc.trim());
+    setEditedImageUrl('');
     if (parentId) {
       router.push('/generate/confirm');
     } else {
@@ -46,11 +45,10 @@ export function Start() {
   };
 
   const onCloseClick = useCallback(() => {
-    reset();
     resetHome();
     resetCloset();
     router.push('/');
-  }, [reset, router, resetHome, resetCloset]);
+  }, [router, resetHome, resetCloset]);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -99,10 +97,9 @@ export function Start() {
             옷 색상
             <input
               id='color'
-              disabled={parentId ? true : false}
               placeholder='예시: 보라색'
               {...register('color', {
-                required: parentId ? false : true,
+                required: true,
               })}
               defaultValue={color}
             />

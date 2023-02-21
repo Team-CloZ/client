@@ -14,7 +14,6 @@ import { S3_ADDRESS_CLOTHES, S3_ADDRESS_USER } from '@src/const';
 import { MdBrush, MdFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
 import { Card } from './Card';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
-import Head from 'next/head';
 
 export function Detail() {
   const {
@@ -131,23 +130,8 @@ export function Detail() {
 
   return (
     <S.DetailWrapper>
-      <Head>
-        <meta name='description' content={clothesDetail.caption} />
-        <meta property='og:title' content={clothesDetail.title} />
-        <meta property='og:description' content={clothesDetail.caption} />
-        <meta
-          property='og:image'
-          content={`${S3_ADDRESS_CLOTHES}/${clothesDetail.imageUrl}`}
-        />
-        <meta
-          property='og:url'
-          content={`https://cloz-cloz.vercel.app/detail/${id}`}
-        />
-        <meta property='og:type' content='website' />
-      </Head>
       <S.Header>
         <S.BackIcon onClick={onBackClick} size={24} />
-        <S.ShareIcon onClick={onShareClick} size={24} />
       </S.Header>
       <S.ClothesInfo>
         <S.ClothesImage
@@ -168,6 +152,7 @@ export function Detail() {
             width={32}
           />
           {clothesDetail.user?.name}
+          <S.ShareIcon onClick={onShareClick} size={24} />
         </S.ClothesMaker>
         <S.Title>{clothesDetail.title}</S.Title>
         <S.Caption>

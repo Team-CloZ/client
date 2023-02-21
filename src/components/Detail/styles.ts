@@ -28,6 +28,7 @@ export const BackIcon = styled(MdArrowBackIos)`
 
 export const ShareIcon = styled(MdOutlineShare)`
   cursor: pointer;
+  margin-left: auto;
 `;
 
 export const ClothesInfo = styled.div`
