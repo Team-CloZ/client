@@ -22,10 +22,10 @@ export function Clothes(clothesProps: IClothesProps) {
         height={height}
         priority
       />
-      <S.LikeCount>
-        <MdFavorite color='#9747FF' size={20} />
+      {/* <S.LikeCount>
+        <MdFavorite color='#9747FF' size={16} />
         {likeCount}
-      </S.LikeCount>
+      </S.LikeCount> */}
     </S.ClotheLink>
   );
 }

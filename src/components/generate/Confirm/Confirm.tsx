@@ -2,8 +2,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import * as S from './styles';
 import { useCallback, useEffect } from 'react';
-import LottieData from '@public/lottie/generating.json';
-import Lottie from 'lottie-react';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
 import { S3_ADDRESS_CLOTHES } from '@src/const';
 import { useSession } from 'next-auth/react';
@@ -12,6 +10,7 @@ import { getClothesDetailApi } from '@src/apis/clothes.api';
 import { IClothesDetail } from '@src/types';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
 import { koToEnApi } from '@src/apis/papago.api';
+import { LoadingCard } from '@src/components/common/LoadingCard';
 
 export function Confirm() {
   const { status } = useSession();
@@ -148,7 +147,7 @@ export function Confirm() {
               height={400}
             />
           ) : (
-            <Lottie animationData={LottieData} />
+            <LoadingCard />
           )}
         </S.ImageWrapper>
         {editedImageUrl !== '' || parentId === undefined ? (

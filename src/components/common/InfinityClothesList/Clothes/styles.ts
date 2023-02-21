@@ -16,6 +16,7 @@ export const ClothesImage = styled(Image)`
 
 export const LikeCount = styled.div`
   position: absolute;
+  height: 20px;
   left: 14px;
   bottom: 14px;
   padding: 2px 3px 0 0;

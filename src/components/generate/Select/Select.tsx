@@ -1,14 +1,13 @@
 import { useRouter } from 'next/router';
 import * as S from './styles';
 import { useCallback, useEffect } from 'react';
-import LottieData from '@public/lottie/generating.json';
-import Lottie from 'lottie-react';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
 import { S3_ADDRESS_CLOTHES } from '@src/const';
 import { useSession } from 'next-auth/react';
 import { generateApi } from '@src/apis/generate.api';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
 import { koToEnApi } from '@src/apis/papago.api';
+import { LoadingCard } from '@src/components/common/LoadingCard';
 
 export function Select() {
   const { status } = useSession();
@@ -113,9 +112,7 @@ export function Select() {
         </S.Header>
         <S.SelectBox>
           {selectImageUrls.length === 0 ? (
-            <S.LottieWrapper>
-              <Lottie animationData={LottieData} />
-            </S.LottieWrapper>
+            <LoadingCard />
           ) : (
             <S.ImageBox>
               {selectImageUrls.map((url, idx) => (
