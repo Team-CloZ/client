@@ -7,7 +7,7 @@ import { SortType } from '@src/types';
 import { useClosetStore } from '@src/hooks/stores';
 import { getClothesApi } from '@src/apis/clothes.api';
 import * as S from './styles';
-import { OptionContainer } from '../common/InfinityClothesList/OprtionContainer';
+import { OptionContainer } from '../common/InfinityClothesList/OptionContainer';
 import { Profile } from './Profile';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
 

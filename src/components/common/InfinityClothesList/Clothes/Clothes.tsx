@@ -1,3 +1,4 @@
+import { MdFavorite } from 'react-icons/md';
 import * as S from './styles';
 import { S3_ADDRESS_CLOTHES } from '@src/const';
 
@@ -6,10 +7,11 @@ interface IClothesProps {
   id: number;
   width: number;
   height: number;
+  likeCount: number;
 }
 
 export function Clothes(clothesProps: IClothesProps) {
-  const { imageUrl, id, width, height } = clothesProps;
+  const { imageUrl, id, width, height, likeCount } = clothesProps;
 
   return (
     <S.ClotheLink href={`/detail/${id}?flag=true`}>
@@ -20,6 +22,10 @@ export function Clothes(clothesProps: IClothesProps) {
         height={height}
         priority
       />
+      <S.LikeCount>
+        <MdFavorite color='#9747FF' size={20} />
+        {likeCount}
+      </S.LikeCount>
     </S.ClotheLink>
   );
 }

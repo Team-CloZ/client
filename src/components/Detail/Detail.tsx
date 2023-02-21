@@ -25,6 +25,7 @@ export function Detail() {
   const { data } = useSession();
   const [clothesDetail, setClothesDetail] = useState<IClothesDetail>();
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(0);
   const [children, setChildren] = useState<IClothesPreview[]>([]);
   const { setTitle, setColor, setDesc, setParentId, setImageUrl, reset } =
     useGenerateStore();
@@ -66,12 +67,17 @@ export function Detail() {
       userId: Number(data.user.id),
     })
       .then(() => {
+        if (isLiked) {
+          setLikeCount((prev) => prev - 1);
+        } else {
+          setLikeCount((prev) => prev + 1);
+        }
         setIsLiked((prev) => !prev);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [id, data]);
+  }, [id, data, isLiked]);
 
   const onShareClick = useCallback(() => {
     window.Kakao.Link.sendCustom({
@@ -89,6 +95,7 @@ export function Detail() {
     getClothesDetailApi({ id: Number(id) })
       .then((res) => {
         setClothesDetail(res);
+        setLikeCount(res.likeCount);
       })
       .catch((err) => {
         console.log(err);
@@ -172,9 +179,9 @@ export function Detail() {
             {isLiked ? (
               <MdFavorite color='#9747FF' size={32} />
             ) : (
-              <MdOutlineFavoriteBorder color='#9747FF' size={32} />
+              <MdOutlineFavoriteBorder size={32} />
             )}
-            Like
+            좋아요 {likeCount}개
           </S.LikeButton>
           <S.ReDesignButton onClick={onRedesignClick}>
             <MdBrush size={24} />

@@ -120,6 +120,7 @@ const Cell = (props: GridChildComponentProps) => {
         imageUrl={cellData.imageUrl}
         width={Number(style.width) - GUTTER_SIZE}
         height={Number(style.height) - GUTTER_SIZE}
+        likeCount={cellData.likeCount}
       />
     </S.CellWrapper>
   );

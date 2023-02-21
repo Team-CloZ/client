@@ -45,9 +45,8 @@ export function Profile() {
         />
         <S.ProfileName>{data?.user.name}</S.ProfileName>
         <S.LikeWrapper>
-          <MdFavorite color='#37258E' size={20} />
-          {likeCount}
-          <span>Likes</span>
+          <MdFavorite color='#9747FF' size={20} />
+          {likeCount}개
         </S.LikeWrapper>
       </S.InfoWrapper>
     </S.ProfileWrapper>

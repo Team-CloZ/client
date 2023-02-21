@@ -48,6 +48,7 @@ export const ImageWrapper = styled.div`
   height: 155px;
   margin-top: 36px;
   border-radius: 14px;
+  border: 1px solid #dedcdf;
 
   img {
     border-radius: 14px;

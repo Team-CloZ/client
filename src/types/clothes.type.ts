@@ -8,6 +8,7 @@ export interface IClothesPreview {
   readonly color: string;
   readonly desc: string;
   readonly caption?: string;
+  readonly likeCount: number;
 }
 
 export interface IClothesDetail {

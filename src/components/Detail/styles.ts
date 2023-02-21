@@ -96,18 +96,17 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const LikeButton = styled.button`
-  width: 104px;
   height: 52px;
   background: #ffffff;
-  border: 1px solid #a9afcd;
+  /* border: 1px solid #a9afcd; */
   border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 5px;
   font-style: normal;
   font-weight: 500;
-  font-size: 19px;
+  font-size: 16px;
   line-height: 22px;
   letter-spacing: -0.408px;
   color: #111a30;

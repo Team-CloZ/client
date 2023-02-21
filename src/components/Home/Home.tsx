@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react';
 import { SortType } from '@src/types';
 import { getClothesApi } from '@src/apis/clothes.api';
 import { InfinityClothesList } from '../common/InfinityClothesList/InfinityClothesList';
-import { OptionContainer } from '../common/InfinityClothesList/OprtionContainer';
+import { OptionContainer } from '../common/InfinityClothesList/OptionContainer';
 import * as S from './styles';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
 
