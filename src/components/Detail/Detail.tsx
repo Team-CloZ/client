@@ -132,7 +132,6 @@ export function Detail() {
   return (
     <S.DetailWrapper>
       <Head>
-        <title>{clothesDetail.title}</title>
         <meta name='description' content={clothesDetail.caption} />
         <meta property='og:title' content={clothesDetail.title} />
         <meta property='og:description' content={clothesDetail.caption} />
