@@ -97,6 +97,7 @@ export function Start() {
             옷 색상
             <input
               id='color'
+              disabled={parentId ? true : false}
               placeholder='예시: 보라색'
               {...register('color', {
                 required: true,
