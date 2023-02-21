@@ -14,6 +14,7 @@ import { S3_ADDRESS_CLOTHES, S3_ADDRESS_USER } from '@src/const';
 import { MdBrush, MdFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
 import { Card } from './Card';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
+import Head from 'next/head';
 
 export function Detail() {
   const {
@@ -127,6 +128,25 @@ export function Detail() {
 
   return (
     <S.DetailWrapper>
+      <Head>
+        <title>{clothesDetail.title}</title>
+        <meta name='description' content={clothesDetail.caption} />
+        <meta property='og:title' content={clothesDetail.title} />
+        <meta property='og:description' content={clothesDetail.caption} />
+        <meta
+          property='og:image'
+          content={`${S3_ADDRESS_CLOTHES}/${clothesDetail.imageUrl}`}
+        />
+        <meta property='og:url' content={`detail/${id}`} />
+
+        <meta name='twitter:title' content={clothesDetail.title} />
+        <meta name='twitter:description' content={clothesDetail.caption} />
+        <meta
+          name='twitter:image'
+          content={`${S3_ADDRESS_CLOTHES}/${clothesDetail.imageUrl}`}
+        />
+        <meta name='twitter:card' content='summary_large_image' />
+      </Head>
       <S.Header>
         <S.BackIcon onClick={onBackClick} size={24} />
         <S.ShareIcon onClick={onShareClick} size={24} />
