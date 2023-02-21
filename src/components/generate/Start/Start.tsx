@@ -4,7 +4,7 @@ import { useGenerateStore } from '@src/hooks/stores/generate.store';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { S3_ADDRESS_CLOTHES } from '@src/const';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { IStartFormValue } from '@src/types';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
@@ -50,10 +50,12 @@ export function Start() {
     router.push('/');
   }, [reset, router, resetHome, resetCloset]);
 
-  if (status === 'unauthenticated') {
-    alert('로그인이 필요한 서비스입니다.');
-    router.replace('/auth/sign-in');
-  }
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      alert('로그인이 필요한 서비스입니다.');
+      router.replace('/auth/sign-in');
+    }
+  }, [status, router]);
 
   if (status === 'authenticated')
     return (

@@ -2,7 +2,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { BottomTabsNavigator } from '../common/BottomTabsNavigator';
 import { InfinityClothesList } from '../common/InfinityClothesList';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { SortType } from '@src/types';
 import { useClosetStore } from '@src/hooks/stores';
 import { getClothesApi } from '@src/apis/clothes.api';
@@ -70,10 +70,12 @@ export function Closet() {
     [setScrollState]
   );
 
-  if (status === 'unauthenticated') {
-    alert('로그인이 필요한 서비스입니다.');
-    router.replace('/auth/sign-in');
-  }
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      alert('로그인이 필요한 서비스입니다.');
+      router.replace('/auth/sign-in');
+    }
+  }, [status, router]);
 
   if (status === 'authenticated')
     return (

@@ -7,7 +7,7 @@ import { S3_ADDRESS_CLOTHES } from '@src/const';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
 import { postClothesApi } from '@src/apis/clothes.api';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export interface IEndFormValue {
   caption: string;
@@ -56,10 +56,12 @@ export function End() {
       });
   };
 
-  if (status === 'unauthenticated') {
-    alert('로그인이 필요한 서비스입니다.');
-    router.replace('/auth/sign-in');
-  }
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      alert('로그인이 필요한 서비스입니다.');
+      router.replace('/auth/sign-in');
+    }
+  }, [status, router]);
 
   if (status === 'authenticated')
     return (

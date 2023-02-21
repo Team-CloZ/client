@@ -3,7 +3,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Lottie from 'lottie-react';
 import signInAnimation from '@public/lottie/sign-in.json';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import * as S from './styles';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as Auth from '../styles';
@@ -43,7 +43,9 @@ export function SignIn() {
     router.push('/auth/sign-up');
   }, [router]);
 
-  if (status === 'authenticated') router.replace('/');
+  useEffect(() => {
+    if (status === 'authenticated') router.replace('/');
+  }, [status, router]);
 
   if (status === 'unauthenticated')
     return (

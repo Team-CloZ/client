@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { checkNameApi, signUpApi } from '@src/apis';
 import * as S from './styles';
 import * as Auth from '../styles';
@@ -60,7 +60,9 @@ export function SignUp() {
     router.push('/auth/sign-in');
   }, [router]);
 
-  if (status === 'authenticated') router.replace('/');
+  useEffect(() => {
+    if (status === 'authenticated') router.replace('/');
+  }, [status, router]);
 
   if (status === 'unauthenticated')
     return (

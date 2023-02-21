@@ -85,10 +85,12 @@ export function Confirm() {
     }
   }, [parentId, onRegenerate]);
 
-  if (status === 'unauthenticated') {
-    alert('로그인이 필요한 서비스입니다.');
-    router.replace('/auth/sign-in');
-  }
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      alert('로그인이 필요한 서비스입니다.');
+      router.replace('/auth/sign-in');
+    }
+  }, [status, router]);
 
   if (status === 'authenticated')
     return (
