@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import * as S from './styles';
 import { BottomTabsNavigator } from '../common/BottomTabsNavigator';
@@ -152,7 +153,15 @@ export function Detail() {
             width={32}
           />
           {clothesDetail.user?.name}
-          <S.ShareIcon onClick={onShareClick} size={24} />
+          <S.ShareButton onClick={onShareClick}>
+            <Image
+              src='/pngs/kakaotalk_sharing.png'
+              alt='share button'
+              height={28}
+              width={28}
+            />
+            공유하기
+          </S.ShareButton>
         </S.ClothesMaker>
         <S.Title>{clothesDetail.title}</S.Title>
         <S.Caption>
