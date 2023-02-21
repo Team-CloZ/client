@@ -1,4 +1,3 @@
-import { isKoApi } from '@src/apis/papago.api';
 import { useEffect, useState } from 'react';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';

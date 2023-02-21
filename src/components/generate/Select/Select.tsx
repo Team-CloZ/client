@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import * as S from './styles';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import LottieData from '@public/lottie/generating.json';
 import Lottie from 'lottie-react';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
@@ -8,7 +8,7 @@ import { S3_ADDRESS_CLOTHES } from '@src/const';
 import { useSession } from 'next-auth/react';
 import { generateApi } from '@src/apis/generate.api';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
-import { isKoApi, koToEnApi } from '@src/apis/papago.api';
+import { koToEnApi } from '@src/apis/papago.api';
 
 export function Select() {
   const { status } = useSession();
@@ -28,12 +28,14 @@ export function Select() {
   } = useGenerateStore();
   const { reset: resetHome } = useHomeStore();
   const { reset: resetCloset } = useClosetStore();
+  const [generating, setGenerating] = useState(false);
 
   const onGenerate = useCallback(async () => {
     try {
-      const tlTitle = (await isKoApi(title)) ? await koToEnApi(title) : title;
-      const tlColor = (await isKoApi(color)) ? await koToEnApi(color) : color;
-      const tlDesc = (await isKoApi(desc)) ? await koToEnApi(desc) : desc;
+      setGenerating(true);
+      const tlTitle = await koToEnApi(title);
+      const tlColor = await koToEnApi(color);
+      const tlDesc = await koToEnApi(desc);
 
       setTlTitle(tlTitle);
       setTlColor(tlColor);

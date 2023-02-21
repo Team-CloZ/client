@@ -11,7 +11,7 @@ import { editApi } from '@src/apis/generate.api';
 import { getClothesDetailApi } from '@src/apis/clothes.api';
 import { IClothesDetail } from '@src/types';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
-import { isKoApi, koToEnApi } from '@src/apis/papago.api';
+import { koToEnApi } from '@src/apis/papago.api';
 
 export function Confirm() {
   const { status } = useSession();
@@ -34,9 +34,9 @@ export function Confirm() {
   const onEdit = useCallback(
     async (data: IClothesDetail) => {
       try {
-        const tlTitle = (await isKoApi(title)) ? await koToEnApi(title) : title;
-        const tlColor = (await isKoApi(color)) ? await koToEnApi(color) : color;
-        const tlDesc = (await isKoApi(desc)) ? await koToEnApi(desc) : desc;
+        const tlTitle = await koToEnApi(title);
+        const tlColor = await koToEnApi(color);
+        const tlDesc = await koToEnApi(desc);
 
         setTlTitle(tlTitle);
         setTlColor(tlColor);
