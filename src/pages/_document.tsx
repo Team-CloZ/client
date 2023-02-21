@@ -5,6 +5,10 @@ export default function Document() {
     <Html lang='ko'>
       <Head />
       <title>CloZ</title>
+      <script
+        defer
+        src='https://developers.kakao.com/sdk/js/kakao.min.js'
+      ></script>
       <body>
         <Main />
         <NextScript />

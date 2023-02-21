@@ -5,6 +5,12 @@ import { css, Global } from '@emotion/react';
 import styled from '@emotion/styled';
 import Layout from './layout';
 
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
 });

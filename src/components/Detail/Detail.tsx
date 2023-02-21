@@ -69,6 +69,16 @@ export function Detail() {
       });
   }, [id, data]);
 
+  const onShareClick = useCallback(() => {
+    window.Kakao.Link.sendCustom({
+      templateId: 90315,
+      templateArgs: {
+        image: `${S3_ADDRESS_CLOTHES}/${clothesDetail?.imageUrl}`,
+        link: `detail/${id}`,
+      },
+    });
+  }, [id, clothesDetail]);
+
   useEffect(() => {
     if (!id) return;
 
@@ -119,7 +129,7 @@ export function Detail() {
     <S.DetailWrapper>
       <S.Header>
         <S.BackIcon onClick={onBackClick} size={24} />
-        <S.ShareIcon size={24} />
+        <S.ShareIcon onClick={onShareClick} size={24} />
       </S.Header>
       <S.ClothesInfo>
         <S.ClothesImage

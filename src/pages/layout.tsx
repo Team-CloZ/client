@@ -10,6 +10,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     handleResize();
     window.addEventListener('resize', handleResize);
 
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+    }
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
