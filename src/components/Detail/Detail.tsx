@@ -56,7 +56,10 @@ export function Detail() {
   ]);
 
   const onLikeClick = useCallback(async () => {
-    if (!id || !data?.user.id) return;
+    if (!id || !data?.user.id) {
+      alert('로그인이 필요한 기능입니다.');
+      return;
+    }
 
     postLikeApi({
       id: Number(id),
@@ -137,15 +140,11 @@ export function Detail() {
           property='og:image'
           content={`${S3_ADDRESS_CLOTHES}/${clothesDetail.imageUrl}`}
         />
-        <meta property='og:url' content={`detail/${id}`} />
-
-        <meta name='twitter:title' content={clothesDetail.title} />
-        <meta name='twitter:description' content={clothesDetail.caption} />
         <meta
-          name='twitter:image'
-          content={`${S3_ADDRESS_CLOTHES}/${clothesDetail.imageUrl}`}
+          property='og:url'
+          content={`https://cloz-cloz.vercel.app/detail/${id}`}
         />
-        <meta name='twitter:card' content='summary_large_image' />
+        <meta property='og:type' content='website' />
       </Head>
       <S.Header>
         <S.BackIcon onClick={onBackClick} size={24} />
