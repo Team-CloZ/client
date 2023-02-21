@@ -30,8 +30,6 @@ export function Select() {
   const { reset: resetCloset } = useClosetStore();
 
   const onGenerate = useCallback(async () => {
-    // if (isGenerating === false) return;
-
     try {
       const tlTitle = await koToEnApi(title);
       const tlColor = await koToEnApi(color);
@@ -47,10 +45,10 @@ export function Select() {
         desc: tlDesc,
       });
 
-      // if (isGenerating) {
-      setSelectImageUrls(res.images);
-      // setIsGenerating(false);
-      // }
+      if (isGenerating) {
+        setSelectImageUrls(res.images);
+        setIsGenerating(false);
+      }
     } catch (err) {
       console.log(err);
       alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
@@ -65,8 +63,8 @@ export function Select() {
     setTlTitle,
     setTlColor,
     setTlDesc,
-    // isGenerating,
-    // setIsGenerating,
+    isGenerating,
+    setIsGenerating,
   ]);
 
   const onPrevClick = useCallback(() => {
@@ -81,29 +79,29 @@ export function Select() {
   }, [router, resetHome, resetCloset]);
 
   const onRegenerateClick = useCallback(() => {
-    // setIsGenerating(true);
+    setIsGenerating(true);
     setSelectImageUrls([]);
     setImageUrl('');
     // useEffect에서 selectImageUrls.length === 0일 때 onGenerate를 호출함
-  }, [setSelectImageUrls, setImageUrl]);
+  }, [setSelectImageUrls, setImageUrl, setIsGenerating]);
 
   const onSelectClick = useCallback(() => {
     router.push('/generate/confirm');
   }, [router]);
 
   useEffect(() => {
-    if (selectImageUrls.length === 0) {
+    if (selectImageUrls.length === 0 && isGenerating) {
       onGenerate();
     }
-  }, [onGenerate, selectImageUrls]);
+  }, [onGenerate, selectImageUrls, isGenerating]);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
       alert('로그인 페이지로 이동합니다.');
       router.replace('/auth/sign-in');
     }
-    // setIsGenerating(true);
-  }, [status, router]);
+    setIsGenerating(true);
+  }, [status, router, setIsGenerating]);
 
   if (status === 'authenticated')
     return (
