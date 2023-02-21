@@ -69,7 +69,10 @@ export function Select() {
     }
   }, [selectImageUrls, onGenerate]);
 
-  if (status === 'unauthenticated') router.replace('/');
+  if (status === 'unauthenticated') {
+    alert('로그인이 필요한 서비스입니다.');
+    router.replace('/auth/sign-in');
+  }
 
   if (status === 'authenticated')
     return (
