@@ -4,6 +4,8 @@ import type { AppProps } from 'next/app';
 import { css, Global } from '@emotion/react';
 import styled from '@emotion/styled';
 import Layout from './layout';
+import Script from 'next/script';
+import { useCallback } from 'react';
 
 declare global {
   interface Window {
@@ -19,6 +21,10 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
+  const kakaoInit = useCallback(() => {
+    window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+  }, []);
+
   return (
     <SessionProvider session={session}>
       <Global styles={globalCss} />
@@ -26,6 +32,10 @@ export default function App({
         <Main className={pretendard.className}>
           <Component {...pageProps} />
         </Main>
+        <Script
+          src='https://developers.kakao.com/sdk/js/kakao.min.js'
+          onLoad={kakaoInit}
+        ></Script>
       </Layout>
     </SessionProvider>
   );
