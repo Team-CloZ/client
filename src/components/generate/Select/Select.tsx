@@ -8,6 +8,7 @@ import { S3_ADDRESS_CLOTHES } from '@src/const';
 import { useSession } from 'next-auth/react';
 import { generateApi } from '@src/apis/generate.api';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
+import { isKoApi, koToEnApi } from '@src/apis/papago.api';
 
 export function Select() {
   const { status } = useSession();
@@ -20,6 +21,9 @@ export function Select() {
     selectImageUrls,
     setSelectImageUrls,
     setImageUrl,
+    setTlTitle,
+    setTlColor,
+    setTlDesc,
     reset,
   } = useGenerateStore();
   const { reset: resetHome } = useHomeStore();
@@ -27,10 +31,18 @@ export function Select() {
 
   const onGenerate = useCallback(async () => {
     try {
+      const tlTitle = (await isKoApi(title)) ? await koToEnApi(title) : title;
+      const tlColor = (await isKoApi(color)) ? await koToEnApi(color) : color;
+      const tlDesc = (await isKoApi(desc)) ? await koToEnApi(desc) : desc;
+
+      setTlTitle(tlTitle);
+      setTlColor(tlColor);
+      setTlDesc(tlDesc);
+
       const res = await generateApi({
-        title,
-        color,
-        desc,
+        title: tlTitle,
+        color: tlColor,
+        desc: tlDesc,
       });
 
       setSelectImageUrls(res.images);
@@ -39,7 +51,16 @@ export function Select() {
       alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
       router.push('/');
     }
-  }, [title, color, desc, setSelectImageUrls, router]);
+  }, [
+    title,
+    color,
+    desc,
+    setSelectImageUrls,
+    router,
+    setTlTitle,
+    setTlColor,
+    setTlDesc,
+  ]);
 
   const onPrevClick = useCallback(() => {
     setSelectImageUrls([]);
@@ -56,8 +77,8 @@ export function Select() {
   const onRegenerateClick = useCallback(() => {
     setSelectImageUrls([]);
     setImageUrl('');
-    onGenerate();
-  }, [setSelectImageUrls, setImageUrl, onGenerate]);
+    // useEffect에서 selectImageUrls.length === 0일 때 onGenerate를 호출함
+  }, [setSelectImageUrls, setImageUrl]);
 
   const onSelectClick = useCallback(() => {
     router.push('/generate/confirm');

@@ -11,42 +11,61 @@ import { editApi } from '@src/apis/generate.api';
 import { getClothesDetailApi } from '@src/apis/clothes.api';
 import { IClothesDetail } from '@src/types';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
+import { isKoApi, koToEnApi } from '@src/apis/papago.api';
 
 export function Confirm() {
   const { status } = useSession();
   const router = useRouter();
-  const { title, color, desc, imageUrl, setImageUrl, parentId, reset } =
-    useGenerateStore();
+  const {
+    title,
+    color,
+    desc,
+    imageUrl,
+    setImageUrl,
+    parentId,
+    reset,
+    setTlTitle,
+    setTlColor,
+    setTlDesc,
+  } = useGenerateStore();
   const { reset: resetHome } = useHomeStore();
   const { reset: resetCloset } = useClosetStore();
 
   const onEdit = useCallback(
-    (data: IClothesDetail) => {
-      const req = {
-        image: data.imageUrl,
-        source: {
-          title: data.title,
-          color: data.color,
-          desc: data.desc,
-        },
-        target: {
-          title,
-          color,
-          desc,
-        },
-      };
+    async (data: IClothesDetail) => {
+      try {
+        const tlTitle = (await isKoApi(title)) ? await koToEnApi(title) : title;
+        const tlColor = (await isKoApi(color)) ? await koToEnApi(color) : color;
+        const tlDesc = (await isKoApi(desc)) ? await koToEnApi(desc) : desc;
 
-      editApi(req)
-        .then((res) => {
-          setImageUrl(res.images[0]);
-        })
-        .catch((err) => {
-          console.log(err);
-          alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
-          router.push('/');
-        });
+        setTlTitle(tlTitle);
+        setTlColor(tlColor);
+        setTlDesc(tlDesc);
+
+        const req = {
+          image: data.imageUrl,
+          source: {
+            title: data.tlTitle,
+            color: data.tlColor,
+            desc: data.tlDesc,
+          },
+          target: {
+            title: tlTitle,
+            color: tlColor,
+            desc: tlDesc,
+          },
+        };
+
+        const res = await editApi(req);
+
+        setImageUrl(res.images[0]);
+      } catch (err) {
+        console.log(err);
+        alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
+        router.push('/');
+      }
     },
-    [title, color, desc, router, setImageUrl]
+    [title, color, desc, router, setImageUrl, setTlTitle, setTlColor, setTlDesc]
   );
 
   const onRegenerate = useCallback(() => {

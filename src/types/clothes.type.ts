@@ -16,6 +16,9 @@ export interface IClothesDetail {
   readonly title: string;
   readonly color: string;
   readonly desc: string;
+  readonly tlTitle: string;
+  readonly tlColor: string;
+  readonly tlDesc: string;
   readonly caption?: string;
   readonly likeCount: number;
   readonly userId: number;
@@ -53,6 +56,9 @@ export interface IPostPostApiReq {
   readonly title: string;
   readonly color: string;
   readonly desc: string;
+  readonly tlTitle: string;
+  readonly tlColor: string;
+  readonly tlDesc: string;
   readonly caption?: string;
   readonly userId: number;
   readonly parentId?: number;

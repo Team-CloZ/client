@@ -18,7 +18,8 @@ export function End() {
   const router = useRouter();
   const { reset: resetHome } = useHomeStore();
   const { reset: resetCloset } = useClosetStore();
-  const { title, color, desc, imageUrl, parentId } = useGenerateStore();
+  const { title, color, desc, tlTitle, tlColor, tlDesc, imageUrl, parentId } =
+    useGenerateStore();
 
   const {
     register,
@@ -40,6 +41,9 @@ export function End() {
       title,
       color,
       desc,
+      tlTitle,
+      tlColor,
+      tlDesc,
       parentId,
       caption: endFormValue.caption,
       userId: data?.user.id,

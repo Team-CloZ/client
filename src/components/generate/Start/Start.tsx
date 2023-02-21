@@ -33,9 +33,9 @@ export function Start() {
   } = useForm<IStartFormValue>();
 
   const onSubmitHandler: SubmitHandler<IStartFormValue> = (data) => {
-    setTitle(data.title);
-    setColor(data.color);
-    setDesc(data.desc);
+    setTitle(data.title.trim());
+    setColor(data.color.trim());
+    setDesc(data.desc.trim());
     if (parentId) {
       router.push('/generate/confirm');
     } else {
