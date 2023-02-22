@@ -155,7 +155,7 @@ export function Confirm() {
   useEffect(() => {
     window.addEventListener('beforeunload', onUnload);
     router.beforePopState(() => {
-      if (parentId) {
+      if (isPending) {
         alert('AI가 옷을 생성중입니다. 잠시만 기다려주세요.');
         router.push('/generate/confirm');
         return false;
@@ -167,7 +167,7 @@ export function Confirm() {
     return () => {
       window.removeEventListener('beforeunload', onUnload);
     };
-  }, [router, parentId]);
+  }, [router, isPending]);
 
   if (status === 'authenticated')
     return (
