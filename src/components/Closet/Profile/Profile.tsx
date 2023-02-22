@@ -56,9 +56,7 @@ export function Profile({ id }: { id: number }) {
       )}
       <S.InfoWrapper>
         <S.ProfileImage
-          src={`${S3_ADDRESS_USER}/${
-            user?.image === '' ? 'user.png' : user?.image
-          }`}
+          src={`${S3_ADDRESS_USER}/${user?.image ? user?.image : 'user.png'}`}
           alt='profile image'
           height={90}
           width={90}
