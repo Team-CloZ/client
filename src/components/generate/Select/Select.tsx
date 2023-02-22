@@ -127,16 +127,19 @@ export function Select() {
   useEffect(() => {
     window.addEventListener('beforeunload', onUnload);
     router.beforePopState(() => {
-      alert('이전 페이지로 이동할 수 없습니다.');
-      // window.location.href = '/generate/select';
-      router.push('/generate/select');
-      return false;
+      if (isPending) {
+        alert('AI가 옷을 생성중입니다. 잠시만 기다려주세요.');
+        router.push('/generate/select');
+        return false;
+      } else {
+        return true;
+      }
     });
 
     return () => {
       window.removeEventListener('beforeunload', onUnload);
     };
-  }, [router]);
+  }, [router, isPending]);
 
   if (status === 'authenticated')
     return (

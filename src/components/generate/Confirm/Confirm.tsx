@@ -156,8 +156,7 @@ export function Confirm() {
     window.addEventListener('beforeunload', onUnload);
     router.beforePopState(() => {
       if (parentId) {
-        alert('이전 페이지로 이동할 수 없습니다.');
-        // window.location.href = '/generate/confirm';
+        alert('AI가 옷을 생성중입니다. 잠시만 기다려주세요.');
         router.push('/generate/confirm');
         return false;
       } else {
