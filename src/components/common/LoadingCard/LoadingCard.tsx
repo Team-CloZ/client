@@ -23,8 +23,12 @@ export function LoadingCard(loadingCardProps: ILoadingCardProps) {
 
   return (
     <S.LoadingCardWrapper>
+      <S.Warn>
+        브라우저를 벗어나거나 페이지 새로고침을 하면
+        <br /> 요청이 취소될 수 있어요. 주의해주세요.
+      </S.Warn>
       <Lottie animationData={LottieData} />
-      <S.Text>서버 상태에 따라 {sec}초 ~ 3분이 소요됩니다.</S.Text>
+      <S.Text>서버 상태에 따라 {sec}초~3분이 소요됩니다.</S.Text>
       <S.Tip>
         Tip. <span>{tip}</span>
       </S.Tip>
