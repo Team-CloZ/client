@@ -66,6 +66,7 @@ export const MakerButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #08090c;
 `;
 
 export const MakerImage = styled(Image)`
