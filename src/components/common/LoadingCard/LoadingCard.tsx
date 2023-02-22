@@ -24,8 +24,9 @@ export function LoadingCard(loadingCardProps: ILoadingCardProps) {
   return (
     <S.LoadingCardWrapper>
       <S.Warn>
-        브라우저를 벗어나거나 페이지 새로고침을 하면
-        <br /> 요청이 취소될 수 있어요. 주의해주세요.
+        브라우저를 벗어나거나 페이지 새로고침을
+        <br />
+        반복하면 요청이 일시적으로 차단될 수 있어요.
       </S.Warn>
       <Lottie animationData={LottieData} />
       <S.Text>서버 상태에 따라 {sec}초~3분이 소요됩니다.</S.Text>
