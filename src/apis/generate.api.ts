@@ -3,24 +3,24 @@ import { serverAxios } from '.';
 import { CancelToken } from 'axios';
 
 export async function generateApi(
-  generateApiReq: IGenerateApiReq,
-  cancelToken: CancelToken
+  generateApiReq: IGenerateApiReq
+  // cancelToken: CancelToken
 ): Promise<IGenerateApiRes> {
   const { data } = await serverAxios.post<IGenerateApiRes>(
     '/ai',
-    generateApiReq,
-    { cancelToken }
+    generateApiReq
+    // { cancelToken }
   );
 
   return data;
 }
 
 export async function editApi(
-  editApiReq: IEditApiReq,
-  cancelToken: CancelToken
+  editApiReq: IEditApiReq
+  // cancelToken: CancelToken
 ): Promise<IGenerateApiRes> {
   const { data } = await serverAxios.patch<IGenerateApiRes>('/ai', editApiReq, {
-    cancelToken,
+    // cancelToken,
   });
 
   return data;

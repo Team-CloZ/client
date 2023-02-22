@@ -1,4 +1,3 @@
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { BottomTabsNavigator } from '../common/BottomTabsNavigator';
 import { InfinityClothesList } from '../common/InfinityClothesList';
@@ -12,8 +11,8 @@ import { Profile } from './Profile';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
 
 export function Closet() {
-  const { status, data } = useSession();
   const router = useRouter();
+  const id = router.query.id;
 
   const {
     page,
@@ -47,11 +46,12 @@ export function Closet() {
 
   const getClothesList = useCallback(
     async (page: number, sortType: SortType) => {
+      if (!id) return;
       try {
         const list = await getClothesApi({
           page,
           sortType,
-          userId: data?.user.id,
+          userId: Number(id),
         });
 
         if (list.length === 0) return;
@@ -62,7 +62,7 @@ export function Closet() {
         console.log(err);
       }
     },
-    [appendClothesList, increasePage, data]
+    [appendClothesList, increasePage, id]
   );
 
   const setScrollRowAndColum = useCallback(
@@ -74,37 +74,31 @@ export function Closet() {
 
   useEffect(() => {
     reset();
-    if (status === 'unauthenticated') {
-      alert('로그인 페이지로 이동합니다.');
-      router.replace('/auth/sign-in');
-    }
-  }, [status, router, reset]);
+    onRefresh();
+  }, [reset, onRefresh, id]);
 
-  if (status === 'authenticated')
-    return (
-      <S.ClosetWrapper>
-        <Profile />
-        <OptionContainer
-          sortType={sortType}
-          setSortType={onChangeSort}
-          onRefresh={onRefresh}
-        />
-        <InfinityClothesList
-          list={clothesList}
-          page={page}
-          keyword={''}
-          sortType={sortType}
-          getClothesList={getClothesList}
-          onChangeSort={onChangeSort}
-          scrollState={scrollState}
-          setScrollRowAndColumn={setScrollRowAndColum}
-          onRefresh={onRefresh}
-          paddingTop={290}
-          paddingBottom={81}
-        />
-        <BottomTabsNavigator />
-      </S.ClosetWrapper>
-    );
-
-  return <></>;
+  return (
+    <S.ClosetWrapper>
+      <Profile id={Number(id)} />
+      <OptionContainer
+        sortType={sortType}
+        setSortType={onChangeSort}
+        onRefresh={onRefresh}
+      />
+      <InfinityClothesList
+        list={clothesList}
+        page={page}
+        keyword={''}
+        sortType={sortType}
+        getClothesList={getClothesList}
+        onChangeSort={onChangeSort}
+        scrollState={scrollState}
+        setScrollRowAndColumn={setScrollRowAndColum}
+        onRefresh={onRefresh}
+        paddingTop={290}
+        paddingBottom={81}
+      />
+      <BottomTabsNavigator />
+    </S.ClosetWrapper>
+  );
 }

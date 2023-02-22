@@ -62,6 +62,12 @@ export const ClothesMaker = styled.div`
   color: #111a30;
 `;
 
+export const MakerButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const MakerImage = styled(Image)`
   margin-right: 8px;
 `;

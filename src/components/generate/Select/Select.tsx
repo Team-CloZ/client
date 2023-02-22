@@ -9,6 +9,7 @@ import { useClosetStore, useHomeStore } from '@src/hooks/stores';
 import { koToEnApi } from '@src/apis/papago.api';
 import { LoadingCard } from '@src/components/common/LoadingCard';
 import axios from 'axios';
+import { usePendingStore } from '@src/hooks/stores/pending.store';
 
 export function Select() {
   const { status } = useSession();
@@ -28,11 +29,15 @@ export function Select() {
   const { reset: resetHome } = useHomeStore();
   const { reset: resetCloset } = useClosetStore();
   const [isGenerating, setIsGenerating] = useState(false);
-  const source = useRef<any>(null);
+  const { isPending, setIsPending } = usePendingStore();
 
   const onGenerate = useCallback(async () => {
+    if (isPending) {
+      alert('AI가 이미 옷을 생성중입니다. 잠시만 기다려주세요.');
+      return;
+    }
     try {
-      source.current = axios.CancelToken.source();
+      setIsPending(true);
 
       const tlTitle = await koToEnApi(title);
       const tlColor = await koToEnApi(color);
@@ -42,25 +47,20 @@ export function Select() {
       setTlColor(tlColor);
       setTlDesc(tlDesc);
 
-      const res = await generateApi(
-        {
-          title: tlTitle,
-          color: tlColor,
-          desc: tlDesc,
-        },
-        source.current.token
-      );
+      const res = await generateApi({
+        title: tlTitle,
+        color: tlColor,
+        desc: tlDesc,
+      });
 
+      setIsPending(false);
       setIsGenerating(false);
       setSelectImageUrls(res.images);
     } catch (err) {
-      if (axios.isCancel(err)) {
-        console.log('Request canceled');
-      } else {
-        console.log(err);
-        alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
-        router.push('/');
-      }
+      setIsPending(false);
+      console.log(err);
+      alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
+      router.push('/');
     }
   }, [
     title,
@@ -71,20 +71,27 @@ export function Select() {
     setTlTitle,
     setTlColor,
     setTlDesc,
+    setIsPending,
+    isPending,
   ]);
 
   const onPrevClick = useCallback(() => {
-    setSelectImageUrls([]);
-    source.current?.cancel();
-    router.back();
-  }, [setSelectImageUrls, router]);
+    if (isPending) {
+      alert('AI가 옷을 생성중입니다. 잠시만 기다려주세요.');
+      return;
+    }
+    router.push('/generate/start');
+  }, [router, isPending]);
 
   const onCloseClick = useCallback(() => {
+    if (isPending) {
+      alert('AI가 옷을 생성중입니다. 잠시만 기다려주세요.');
+      return;
+    }
     resetHome();
     resetCloset();
-    source.current?.cancel();
     router.push('/');
-  }, [router, resetHome, resetCloset]);
+  }, [router, resetHome, resetCloset, isPending]);
 
   const onRegenerateClick = useCallback(() => {
     setSelectImageUrls([]);
@@ -104,6 +111,7 @@ export function Select() {
 
   useEffect(() => {
     if (selectImageUrls.length === 0 && isGenerating === false) {
+      setIsGenerating(true);
       onGenerate();
     }
   }, [onGenerate, selectImageUrls, isGenerating]);
@@ -118,12 +126,17 @@ export function Select() {
   // 브라우저에 렌더링 시 한 번만 실행하는 코드
   useEffect(() => {
     window.addEventListener('beforeunload', onUnload);
+    router.beforePopState(() => {
+      alert('이전 페이지로 이동할 수 없습니다.');
+      // window.location.href = '/generate/select';
+      router.push('/generate/select');
+      return false;
+    });
 
     return () => {
-      source.current?.cancel();
       window.removeEventListener('beforeunload', onUnload);
     };
-  }, []);
+  }, [router]);
 
   if (status === 'authenticated')
     return (

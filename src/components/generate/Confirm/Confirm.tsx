@@ -12,6 +12,7 @@ import { useClosetStore, useHomeStore } from '@src/hooks/stores';
 import { koToEnApi } from '@src/apis/papago.api';
 import { LoadingCard } from '@src/components/common/LoadingCard';
 import axios, { CancelToken } from 'axios';
+import { usePendingStore } from '@src/hooks/stores/pending.store';
 
 export function Confirm() {
   const { status } = useSession();
@@ -31,12 +32,16 @@ export function Confirm() {
   const { reset: resetHome } = useHomeStore();
   const { reset: resetCloset } = useClosetStore();
   const [isGenerating, setIsGenerating] = useState(false);
-  const source = useRef<any>(null);
+  const { isPending, setIsPending } = usePendingStore();
 
   const onEdit = useCallback(
     async (data: IClothesDetail) => {
+      if (isPending) {
+        alert('AI가 이미 옷을 생성중입니다. 잠시만 기다려주세요.');
+        return;
+      }
       try {
-        source.current = axios.CancelToken.source();
+        setIsPending(true);
 
         const tlTitle = await koToEnApi(title);
         const tlColor = await koToEnApi(color);
@@ -60,18 +65,16 @@ export function Confirm() {
           },
         };
 
-        const res = await editApi(req, source.current.token);
+        const res = await editApi(req);
 
+        setIsPending(false);
         setIsGenerating(false);
         setEditedImageUrl(res.images[0]);
       } catch (err) {
-        if (axios.isCancel(err)) {
-          console.log('Request canceled');
-        } else {
-          console.log(err);
-          alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
-          router.push('/');
-        }
+        setIsPending(false);
+        console.log(err);
+        alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
+        router.push('/');
       }
     },
     [
@@ -83,6 +86,8 @@ export function Confirm() {
       setTlTitle,
       setTlColor,
       setTlDesc,
+      isPending,
+      setIsPending,
     ]
   );
 
@@ -103,20 +108,30 @@ export function Confirm() {
   }, [setEditedImageUrl, parentId, onEdit, router]);
 
   const onCloseClick = useCallback(() => {
+    if (isPending) {
+      alert('AI가 옷을 생성중입니다. 잠시만 기다려주세요.');
+      return;
+    }
     resetHome();
     resetCloset();
-    source.current?.cancel();
-    router.push('/');
-  }, [router, resetHome, resetCloset]);
+    if (parentId) {
+      router.push(`/generate/start`);
+    } else {
+      router.push('/generate/select');
+    }
+  }, [router, resetHome, resetCloset, isPending, parentId]);
 
   const onCompleteClick = useCallback(() => {
     router.push('/generate/end');
   }, [router]);
 
   const onPrevClick = useCallback(() => {
-    source.current?.cancel();
+    if (isPending) {
+      alert('AI가 옷을 생성중입니다. 잠시만 기다려주세요.');
+      return;
+    }
     router.back();
-  }, [router]);
+  }, [router, isPending]);
 
   const onUnload = (e: BeforeUnloadEvent) => {
     e.preventDefault();
@@ -139,12 +154,21 @@ export function Confirm() {
   // 브라우저에 렌더링 시 한 번만 실행하는 코드
   useEffect(() => {
     window.addEventListener('beforeunload', onUnload);
+    router.beforePopState(() => {
+      if (parentId) {
+        alert('이전 페이지로 이동할 수 없습니다.');
+        // window.location.href = '/generate/confirm';
+        router.push('/generate/confirm');
+        return false;
+      } else {
+        return true;
+      }
+    });
 
     return () => {
-      source.current?.cancel();
       window.removeEventListener('beforeunload', onUnload);
     };
-  }, []);
+  }, [router, parentId]);
 
   if (status === 'authenticated')
     return (

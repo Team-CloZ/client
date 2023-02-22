@@ -80,7 +80,7 @@ export const PlusIcon = styled(IoAddOutline)`
   height: 42px;
 `;
 
-export const ClosetLink = styled(Link)`
+export const ClosetLink = styled.div`
   cursor: pointer;
   width: 80px;
   height: 60px;

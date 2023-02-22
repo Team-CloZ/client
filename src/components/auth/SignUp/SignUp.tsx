@@ -11,7 +11,6 @@ import { ISignUpFormValues } from '@src/types';
 export function SignUp() {
   const { status } = useSession();
   const router = useRouter();
-
   const {
     watch,
     register,

@@ -8,6 +8,7 @@ import { useCallback, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { IStartFormValue } from '@src/types';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
+import { usePendingStore } from '@src/hooks/stores/pending.store';
 
 export function Start() {
   const { status } = useSession();
@@ -22,9 +23,11 @@ export function Start() {
     setColor,
     setDesc,
     setEditedImageUrl,
+    setSelectImageUrls,
   } = useGenerateStore();
   const { reset: resetHome } = useHomeStore();
   const { reset: resetCloset } = useClosetStore();
+  const { isPending } = usePendingStore();
 
   const {
     register,
@@ -33,6 +36,10 @@ export function Start() {
   } = useForm<IStartFormValue>();
 
   const onSubmitHandler: SubmitHandler<IStartFormValue> = (data) => {
+    if (isPending) {
+      alert('AI가 이미 옷을 생성중입니다. 잠시만 기다려주세요.');
+      return;
+    }
     setTitle(data.title.trim());
     setColor(data.color.trim());
     setDesc(data.desc.trim());
@@ -56,6 +63,10 @@ export function Start() {
       router.replace('/auth/sign-in');
     }
   }, [status, router]);
+
+  useEffect(() => {
+    setSelectImageUrls([]);
+  }, [setSelectImageUrls]);
 
   if (status === 'authenticated')
     return (

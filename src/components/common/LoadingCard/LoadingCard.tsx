@@ -24,7 +24,7 @@ export function LoadingCard(loadingCardProps: ILoadingCardProps) {
   return (
     <S.LoadingCardWrapper>
       <Lottie animationData={LottieData} />
-      <S.Text>약 {sec}초가 소요됩니다.</S.Text>
+      <S.Text>서버 상태에 따라 {sec}초 ~ 3분이 소요됩니다.</S.Text>
       <S.Tip>
         Tip. <span>{tip}</span>
       </S.Tip>

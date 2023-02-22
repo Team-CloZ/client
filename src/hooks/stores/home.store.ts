@@ -80,7 +80,7 @@ const persistStore = create(
         set((state) => ({ ...state, isSearching: data }));
       },
       reset: () => {
-        set(() => initialState);
+        set(initialState);
       },
     }),
     {

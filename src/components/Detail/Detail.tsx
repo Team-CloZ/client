@@ -89,6 +89,11 @@ export function Detail() {
     });
   }, [id, clothesDetail]);
 
+  const onMakerClick = useCallback(() => {
+    if (!clothesDetail) return;
+    push(`/closet/${clothesDetail.user?.id}`);
+  }, [clothesDetail, push]);
+
   useEffect(() => {
     if (!id) return;
 
@@ -149,17 +154,19 @@ export function Detail() {
           height={480}
         />
         <S.ClothesMaker>
-          <S.MakerImage
-            src={`${S3_ADDRESS_USER}/${
-              clothesDetail.user?.image === ''
-                ? 'user.png'
-                : clothesDetail.user?.image
-            }`}
-            alt='user image'
-            height={32}
-            width={32}
-          />
-          {clothesDetail.user?.name}
+          <S.MakerButton onClick={onMakerClick}>
+            <S.MakerImage
+              src={`${S3_ADDRESS_USER}/${
+                clothesDetail.user?.image === ''
+                  ? 'user.png'
+                  : clothesDetail.user?.image
+              }`}
+              alt='user image'
+              height={32}
+              width={32}
+            />
+            {clothesDetail.user?.name}
+          </S.MakerButton>
           <S.ShareButton onClick={onShareClick}>
             <Image
               src='/pngs/kakaotalk_sharing.png'

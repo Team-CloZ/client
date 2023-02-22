@@ -68,7 +68,7 @@ const persistStore = create(
         }));
       },
       reset: () => {
-        set(() => initialState);
+        set(initialState);
       },
     }),
     {
