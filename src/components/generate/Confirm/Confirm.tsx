@@ -192,7 +192,7 @@ export function Confirm() {
               height={400}
             />
           ) : (
-            <LoadingCard type='generate' queue={queue} />
+            <LoadingCard type='edit' queue={queue} />
           )}
         </S.ImageWrapper>
         {editedImageUrl !== '' || parentId === undefined ? (
