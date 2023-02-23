@@ -1,6 +1,7 @@
 import LottieData from '@public/lottie/generating.json';
 import Lottie from 'lottie-react';
 import * as S from './styles';
+import { useEffect, useState } from 'react';
 
 const tips = [
   '쇼핑몰에 올린다고 상상하며 설명을 적어보세요.',
@@ -19,13 +20,21 @@ interface ILoadingCardProps {
 }
 
 export function LoadingCard(loadingCardProps: ILoadingCardProps) {
+  const [caculateTime, setCaculateTime] = useState(0);
+  const [tip, setTip] = useState(tips[0]);
   const { type, queue } = loadingCardProps;
-  const tip = tips[Math.floor(Math.random() * tips.length)];
 
-  const caculateTime =
-    type === 'generate'
-      ? Math.floor(queue / 4 + 1) * 45
-      : Math.floor(queue / 4 + 1) * 10;
+  useEffect(() => {
+    if (type === 'generate') {
+      setCaculateTime(Math.floor(queue / 4 + 1) * 45);
+    } else {
+      setCaculateTime(Math.floor(queue / 4 + 1) * 10);
+    }
+  }, [type, setCaculateTime, queue]);
+
+  useEffect(() => {
+    setTip(tips[Math.floor(Math.random() * tips.length)]);
+  }, [setTip]);
 
   return (
     <S.LoadingCardWrapper>
