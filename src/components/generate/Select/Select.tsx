@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import * as S from './styles';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
 import { S3_ADDRESS_CLOTHES } from '@src/const';
 import { useSession } from 'next-auth/react';
@@ -8,7 +8,6 @@ import { generateApi, getGenerateQueueApi } from '@src/apis/generate.api';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
 import { koToEnApi } from '@src/apis/papago.api';
 import { LoadingCard } from '@src/components/common/LoadingCard';
-import axios from 'axios';
 import { usePendingStore } from '@src/hooks/stores/pending.store';
 
 export function Select() {
@@ -64,7 +63,7 @@ export function Select() {
       setQueue(-1);
       setIsPending(false);
       console.log(err);
-      alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');
+      alert('생성에 실패했습니다. 다시 시도해주세요.');
       router.push('/');
     }
   }, [
