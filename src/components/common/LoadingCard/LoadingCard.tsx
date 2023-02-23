@@ -32,7 +32,9 @@ export function LoadingCard(loadingCardProps: ILoadingCardProps) {
       <Lottie animationData={LottieData} />
       {/* <S.Text>서버 상태에 따라 {sec}초~3분이 소요됩니다.</S.Text> */}
       <S.Text>현재 {queue + 1}명이 생성 중입니다.</S.Text>
-      <S.Text>최대 {Math.floor(queue / 4 + 1) * 45}초가 소요됩니다.</S.Text>
+      <S.Text>
+        최대 <strong>{Math.floor(queue / 4 + 1) * 45}초</strong>가 소요됩니다.
+      </S.Text>
       <S.Tip>
         Tip. <span>{tip}</span>
       </S.Tip>
