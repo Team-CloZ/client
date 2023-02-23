@@ -33,7 +33,7 @@ export function Confirm() {
   const { reset: resetCloset } = useClosetStore();
   const [isGenerating, setIsGenerating] = useState(false);
   const { isPending, setIsPending } = usePendingStore();
-  const [queue, setQueue] = useState(0);
+  const [queue, setQueue] = useState(-1);
 
   const onEdit = useCallback(
     async (data: IClothesDetail) => {
@@ -70,11 +70,12 @@ export function Confirm() {
 
         const res = await editApi(req);
 
-        setQueue(0);
+        setQueue(-1);
         setIsPending(false);
         setIsGenerating(false);
         setEditedImageUrl(res.images[0]);
       } catch (err) {
+        setQueue(-1);
         setIsPending(false);
         console.log(err);
         alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');

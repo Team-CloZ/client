@@ -30,7 +30,7 @@ export function Select() {
   const { reset: resetCloset } = useClosetStore();
   const [isGenerating, setIsGenerating] = useState(false);
   const { isPending, setIsPending } = usePendingStore();
-  const [queue, setQueue] = useState(0);
+  const [queue, setQueue] = useState(-1);
 
   const onGenerate = useCallback(async () => {
     if (isPending) {
@@ -56,11 +56,12 @@ export function Select() {
         desc: tlDesc,
       });
 
-      setQueue(0);
+      setQueue(-1);
       setIsPending(false);
       setIsGenerating(false);
       setSelectImageUrls(res.images);
     } catch (err) {
+      setQueue(-1);
       setIsPending(false);
       console.log(err);
       alert('서버 요청이 너무 많습니다 ㅠㅠ 잠시 후 다시 시도해주세요.');

@@ -44,13 +44,19 @@ export function LoadingCard(loadingCardProps: ILoadingCardProps) {
         반복하면 <strong>계정이 일시적으로 차단</strong>될 수 있어요.
       </S.Warn>
       <Lottie animationData={LottieData} />
-      <S.Text>현재 {queue + 1}명이 생성 중입니다.</S.Text>
-      <S.Text>
-        최대 <strong>{caculateTime}초</strong>가 소요됩니다.
-      </S.Text>
-      <S.Tip>
-        Tip. <span>{tip}</span>
-      </S.Tip>
+      {queue === -1 ? (
+        <>
+          <S.Text>현재 {queue + 1}명이 생성 중입니다.</S.Text>
+          <S.Text>
+            최대 <strong>{caculateTime}초</strong>가 소요됩니다.
+          </S.Text>
+          <S.Tip>
+            Tip. <span>{tip}</span>
+          </S.Tip>
+        </>
+      ) : (
+        <></>
+      )}
     </S.LoadingCardWrapper>
   );
 }
