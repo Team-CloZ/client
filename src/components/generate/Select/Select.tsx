@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
 import { S3_ADDRESS_CLOTHES } from '@src/const';
 import { useSession } from 'next-auth/react';
-import { generateApi } from '@src/apis/generate.api';
+import { generateApi, getGenerateQueueApi } from '@src/apis/generate.api';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
 import { koToEnApi } from '@src/apis/papago.api';
 import { LoadingCard } from '@src/components/common/LoadingCard';
@@ -30,6 +30,7 @@ export function Select() {
   const { reset: resetCloset } = useClosetStore();
   const [isGenerating, setIsGenerating] = useState(false);
   const { isPending, setIsPending } = usePendingStore();
+  const [queue, setQueue] = useState(0);
 
   const onGenerate = useCallback(async () => {
     if (isPending) {
@@ -46,6 +47,8 @@ export function Select() {
       setTlTitle(tlTitle);
       setTlColor(tlColor);
       setTlDesc(tlDesc);
+
+      setQueue(await getGenerateQueueApi());
 
       const res = await generateApi({
         title: tlTitle,
@@ -151,7 +154,7 @@ export function Select() {
         </S.Header>
         <S.SelectBox>
           {selectImageUrls.length === 0 ? (
-            <LoadingCard sec={30} />
+            <LoadingCard sec={30} queue={queue} />
           ) : (
             <S.ImageBox>
               {selectImageUrls.map((url, idx) => (

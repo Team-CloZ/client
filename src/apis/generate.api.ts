@@ -25,3 +25,15 @@ export async function editApi(
 
   return data;
 }
+
+export async function getGenerateQueueApi(): Promise<number> {
+  const { data } = await serverAxios.get<number>('/ai/queue/generate');
+
+  return data;
+}
+
+export async function getEditQueueApi(): Promise<number> {
+  const { data } = await serverAxios.get<number>('/ai/queue/edit');
+
+  return data;
+}
