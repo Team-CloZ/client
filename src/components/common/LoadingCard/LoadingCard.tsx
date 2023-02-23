@@ -14,13 +14,18 @@ const tips = [
 ];
 
 interface ILoadingCardProps {
-  sec: number;
+  type: 'generate' | 'edit';
   queue: number;
 }
 
 export function LoadingCard(loadingCardProps: ILoadingCardProps) {
-  const { sec, queue } = loadingCardProps;
+  const { type, queue } = loadingCardProps;
   const tip = tips[Math.floor(Math.random() * tips.length)];
+
+  const caculateTime =
+    type === 'generate'
+      ? Math.floor(queue / 4 + 1) * 45
+      : Math.floor(queue / 4 + 1) * 10;
 
   return (
     <S.LoadingCardWrapper>
@@ -30,10 +35,9 @@ export function LoadingCard(loadingCardProps: ILoadingCardProps) {
         반복하면 <strong>계정이 일시적으로 차단</strong>될 수 있어요.
       </S.Warn>
       <Lottie animationData={LottieData} />
-      {/* <S.Text>서버 상태에 따라 {sec}초~3분이 소요됩니다.</S.Text> */}
       <S.Text>현재 {queue + 1}명이 생성 중입니다.</S.Text>
       <S.Text>
-        최대 <strong>{Math.floor(queue / 4 + 1) * 45}초</strong>가 소요됩니다.
+        최대 <strong>{caculateTime}초</strong>가 소요됩니다.
       </S.Text>
       <S.Tip>
         Tip. <span>{tip}</span>

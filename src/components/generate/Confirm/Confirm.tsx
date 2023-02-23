@@ -70,6 +70,7 @@ export function Confirm() {
 
         const res = await editApi(req);
 
+        setQueue(0);
         setIsPending(false);
         setIsGenerating(false);
         setEditedImageUrl(res.images[0]);
@@ -191,7 +192,7 @@ export function Confirm() {
               height={400}
             />
           ) : (
-            <LoadingCard sec={10} queue={queue} />
+            <LoadingCard type='generate' queue={queue} />
           )}
         </S.ImageWrapper>
         {editedImageUrl !== '' || parentId === undefined ? (

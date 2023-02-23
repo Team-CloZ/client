@@ -56,6 +56,7 @@ export function Select() {
         desc: tlDesc,
       });
 
+      setQueue(0);
       setIsPending(false);
       setIsGenerating(false);
       setSelectImageUrls(res.images);
@@ -154,7 +155,7 @@ export function Select() {
         </S.Header>
         <S.SelectBox>
           {selectImageUrls.length === 0 ? (
-            <LoadingCard sec={30} queue={queue} />
+            <LoadingCard type={'edit'} queue={queue} />
           ) : (
             <S.ImageBox>
               {selectImageUrls.map((url, idx) => (
