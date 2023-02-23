@@ -45,6 +45,8 @@ export function LoadingCard(loadingCardProps: ILoadingCardProps) {
       </S.Warn>
       <Lottie animationData={LottieData} />
       {queue === -1 ? (
+        <></>
+      ) : (
         <>
           <S.Text>현재 {queue + 1}명이 생성 중입니다.</S.Text>
           <S.Text>
@@ -54,8 +56,6 @@ export function LoadingCard(loadingCardProps: ILoadingCardProps) {
             Tip. <span>{tip}</span>
           </S.Tip>
         </>
-      ) : (
-        <></>
       )}
     </S.LoadingCardWrapper>
   );
