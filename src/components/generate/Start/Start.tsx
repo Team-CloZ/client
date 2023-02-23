@@ -42,7 +42,8 @@ export function Start() {
     }
     setTitle(data.title.trim());
     setColor(data.color.trim());
-    setDesc(data.desc.trim());
+    setDesc(data.desc.trim().replace(/\s+/g, ' '));
+
     setEditedImageUrl('');
     if (parentId) {
       router.push('/generate/confirm');
