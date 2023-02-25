@@ -27,7 +27,7 @@ export function LoadingCard(loadingCardProps: ILoadingCardProps) {
 
   useEffect(() => {
     if (type === 'generate') {
-      if (queue2 === -1) {
+      if (queue2 === 0) {
         setCaculateTime(Math.floor(queue / 4 + 1) * 45);
       } else {
         setCaculateTime(
@@ -35,7 +35,7 @@ export function LoadingCard(loadingCardProps: ILoadingCardProps) {
         );
       }
     } else {
-      if (queue2 === -1) {
+      if (queue2 === 0) {
         setCaculateTime(Math.floor(queue / 4 + 1) * 10);
       } else {
         setCaculateTime(
