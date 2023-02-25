@@ -27,13 +27,21 @@ export function LoadingCard(loadingCardProps: ILoadingCardProps) {
 
   useEffect(() => {
     if (type === 'generate') {
-      setCaculateTime(
-        Math.floor(queue / 4 + 1) * 45 + Math.floor(queue2 / 4 + 1) * 10
-      );
+      if (queue2 === -1) {
+        setCaculateTime(Math.floor(queue / 4 + 1) * 45);
+      } else {
+        setCaculateTime(
+          Math.floor(queue / 4 + 1) * 45 + Math.floor(queue2 / 4 + 1) * 10
+        );
+      }
     } else {
-      setCaculateTime(
-        Math.floor(queue / 4 + 1) * 10 + Math.floor(queue2 / 4 + 1) * 45
-      );
+      if (queue2 === -1) {
+        setCaculateTime(Math.floor(queue / 4 + 1) * 10);
+      } else {
+        setCaculateTime(
+          Math.floor(queue / 4 + 1) * 10 + Math.floor(queue2 / 4 + 1) * 45
+        );
+      }
     }
   }, [type, setCaculateTime, queue, queue2]);
 
