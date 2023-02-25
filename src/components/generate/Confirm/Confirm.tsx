@@ -5,7 +5,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
 import { S3_ADDRESS_CLOTHES } from '@src/const';
 import { useSession } from 'next-auth/react';
-import { editApi, getEditQueueApi } from '@src/apis/generate.api';
+import {
+  editApi,
+  getEditQueueApi,
+  getGenerateQueueApi,
+} from '@src/apis/generate.api';
 import { getClothesDetailApi } from '@src/apis/clothes.api';
 import { IClothesDetail } from '@src/types';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
@@ -33,6 +37,7 @@ export function Confirm() {
   const [isGenerating, setIsGenerating] = useState(false);
   const { isPending, setIsPending } = usePendingStore();
   const [queue, setQueue] = useState(-1);
+  const [queue2, setQueue2] = useState(-1);
 
   const onEdit = useCallback(
     async (data: IClothesDetail) => {
@@ -66,15 +71,18 @@ export function Confirm() {
         };
 
         setQueue(await getEditQueueApi());
+        setQueue2(await getGenerateQueueApi());
 
         const res = await editApi(req);
 
         setQueue(-1);
+        setQueue2(-1);
         setIsPending(false);
         setIsGenerating(false);
         setEditedImageUrl(res.images[0]);
       } catch (err) {
         setQueue(-1);
+        setQueue2(-1);
         setIsPending(false);
         console.log(err);
         alert('생성에 실패했습니다. 다시 시도해주세요.');
@@ -192,7 +200,7 @@ export function Confirm() {
               height={400}
             />
           ) : (
-            <LoadingCard type='edit' queue={queue} />
+            <LoadingCard type='edit' queue={queue} queue2={queue2} />
           )}
         </S.ImageWrapper>
         {editedImageUrl !== '' || parentId === undefined ? (

@@ -17,20 +17,25 @@ const tips = [
 interface ILoadingCardProps {
   type: 'generate' | 'edit';
   queue: number;
+  queue2: number;
 }
 
 export function LoadingCard(loadingCardProps: ILoadingCardProps) {
   const [caculateTime, setCaculateTime] = useState(0);
   const [tip, setTip] = useState(tips[0]);
-  const { type, queue } = loadingCardProps;
+  const { type, queue, queue2 } = loadingCardProps;
 
   useEffect(() => {
     if (type === 'generate') {
-      setCaculateTime(Math.floor(queue / 4 + 1) * 45);
+      setCaculateTime(
+        Math.floor(queue / 4 + 1) * 45 + Math.floor(queue2 / 4 + 1) * 10
+      );
     } else {
-      setCaculateTime(Math.floor(queue / 4 + 1) * 10);
+      setCaculateTime(
+        Math.floor(queue / 4 + 1) * 10 + Math.floor(queue2 / 4 + 1) * 45
+      );
     }
-  }, [type, setCaculateTime, queue]);
+  }, [type, setCaculateTime, queue, queue2]);
 
   useEffect(() => {
     setTip(tips[Math.floor(Math.random() * tips.length)]);
@@ -48,7 +53,7 @@ export function LoadingCard(loadingCardProps: ILoadingCardProps) {
         <></>
       ) : (
         <>
-          <S.Text>현재 {queue + 1}명이 생성 중입니다.</S.Text>
+          <S.Text>현재 {queue + queue2 + 1}명이 생성 중입니다.</S.Text>
           <S.Text>
             최대 <strong>{caculateTime}초</strong>가 소요됩니다.
           </S.Text>

@@ -4,7 +4,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { useGenerateStore } from '@src/hooks/stores/generate.store';
 import { S3_ADDRESS_CLOTHES } from '@src/const';
 import { useSession } from 'next-auth/react';
-import { generateApi, getGenerateQueueApi } from '@src/apis/generate.api';
+import {
+  generateApi,
+  getEditQueueApi,
+  getGenerateQueueApi,
+} from '@src/apis/generate.api';
 import { useClosetStore, useHomeStore } from '@src/hooks/stores';
 import { koToEnApi } from '@src/apis/papago.api';
 import { LoadingCard } from '@src/components/common/LoadingCard';
@@ -30,6 +34,7 @@ export function Select() {
   const [isGenerating, setIsGenerating] = useState(false);
   const { isPending, setIsPending } = usePendingStore();
   const [queue, setQueue] = useState(-1);
+  const [queue2, setQueue2] = useState(-1);
 
   const onGenerate = useCallback(async () => {
     if (isPending) {
@@ -48,6 +53,7 @@ export function Select() {
       setTlDesc(tlDesc);
 
       setQueue(await getGenerateQueueApi());
+      setQueue2(await getEditQueueApi());
 
       const res = await generateApi({
         title: tlTitle,
@@ -56,11 +62,13 @@ export function Select() {
       });
 
       setQueue(-1);
+      setQueue2(-1);
       setIsPending(false);
       setIsGenerating(false);
       setSelectImageUrls(res.images);
     } catch (err) {
       setQueue(-1);
+      setQueue2(-1);
       setIsPending(false);
       console.log(err);
       alert('생성에 실패했습니다. 다시 시도해주세요.');
@@ -155,7 +163,7 @@ export function Select() {
         </S.Header>
         <S.SelectBox>
           {selectImageUrls.length === 0 ? (
-            <LoadingCard type={'generate'} queue={queue} />
+            <LoadingCard type={'generate'} queue={queue} queue2={queue2} />
           ) : (
             <S.ImageBox>
               {selectImageUrls.map((url, idx) => (
