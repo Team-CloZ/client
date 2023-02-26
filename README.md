@@ -1,38 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SPARCS-2023-StartUp-Hackathon-3 금상(1위)
 
-## Getting Started
+> [TEAM S] S-CLIENT
 
-First, run the development server:
+다음과 같은 기능이 포함되어 있습니다.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+- 커뮤니티
+- AI 이미지 생성
+- 번역
+- Auth
+
+## 프로젝트에서 사용한 기술
+
+- 데모데이 기간 fullstack 코드 리팩토링 및 `Next.js`, `Nest.js`로 분리 작업
+
+## Dev Server 실행 방법
+
+1. `pnpm i`
+2. `pnpm dev`
+
+## Production 배포 방법
+
+- 프론트엔드 -> Vercel
+- 백엔드 -> OCI
+- AI 서버 -> AWS 인스턴스
+- DB 서버 -> OCI
+- 이미지 서버 -> AWS S3
+
+## 환경 변수 및 시크릿
+
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+NEXT_PUBLIC_KAKAO_API_KEY=string
+```
