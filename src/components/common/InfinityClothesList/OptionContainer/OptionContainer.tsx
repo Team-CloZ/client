@@ -1,6 +1,6 @@
 import { SortType } from '@src/types';
 import * as S from './styles';
-import { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, useCallback, useEffect } from 'react';
 import { MdOutlineRefresh } from 'react-icons/md';
 
 interface IOptionContainerProps {
@@ -34,7 +34,7 @@ export function OptionContainer(optionContainerProps: IOptionContainerProps) {
         name='sort'
         id='sort-select'
         onChange={onSortChange}
-        defaultValue={sortType}
+        value={sortType}
       >
         <option value={SortType.POPULAR}>{SortType.POPULAR}</option>
         <option value={SortType.LATEST}>{SortType.LATEST}</option>
