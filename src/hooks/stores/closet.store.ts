@@ -22,7 +22,7 @@ interface IClosetStore {
 }
 
 const initialState = {
-  sortType: SortType.LATEST,
+  sortType: SortType.POPULAR,
   clothesList: [],
   page: 1,
   scrollState: {
