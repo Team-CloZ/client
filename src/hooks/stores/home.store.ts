@@ -26,7 +26,7 @@ interface IHomeStore {
 }
 
 const initialState = {
-  sortType: SortType.LATEST,
+  sortType: SortType.POPULAR,
   clothesList: [],
   keyword: '',
   page: 1,
